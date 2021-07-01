@@ -51,7 +51,7 @@ export function luhnCheck(str: string) {
  * to calculate the sum of the digits multiplied in reverse.
  * Normally used in variations of MOD 11 algorithmic checks.
  */
-export function reverseMultiplyAndSum(digits, base) {
+export function reverseMultiplyAndSum(digits: number[], base: number) {
   let total = 0;
   for (let i = 0; i < digits.length; i++) {
     total += digits[i] * (base - i);

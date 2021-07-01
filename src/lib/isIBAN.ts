@@ -5,7 +5,7 @@ import assertString from "./util/assertString.ts";
  * corresponding IBAN regular expression
  * Reference: https://en.wikipedia.org/wiki/International_Bank_Account_Number
  */
-const ibanRegexThroughCountryCode = {
+const ibanRegexThroughCountryCode: any = {
   AD: /^(AD[0-9]{2})\d{8}[A-Z0-9]{12}$/,
   AE: /^(AE[0-9]{2})\d{3}\d{16}$/,
   AL: /^(AL[0-9]{2})\d{8}[A-Z0-9]{16}$/,
@@ -122,13 +122,13 @@ function hasValidIbanFormat(str: string) {
 function hasValidIbanChecksum(str: string) {
   const strippedStr = str.replace(/[^A-Z0-9]+/gi, "").toUpperCase(); // Keep only digits and A-Z latin alphabetic
   const rearranged = strippedStr.slice(4) + strippedStr.slice(0, 4);
-  const alphaCapsReplacedWithDigits = rearranged.replace(
+  const alphaCapsReplacedWithDigits: any = rearranged.replace(
     /[A-Z]/g,
-    (char) => char.charCodeAt(0) - 55,
+    (char: string) => (char.charCodeAt(0) - 55) + ''
   );
 
   const remainder = alphaCapsReplacedWithDigits.match(/\d{1,7}/g)
-    .reduce((acc, value) => Number(acc + value) % 97, "");
+    .reduce((acc: string, value: string) => Number(acc + value) % 97, "");
 
   return remainder === 1;
 }

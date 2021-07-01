@@ -160,7 +160,7 @@ const yandex_domains = [
 ];
 
 // replace single dots, but not multiple consecutive dots
-function dotsReplacer(match) {
+function dotsReplacer(match: string) {
   if (match.length > 1) {
     return match;
   }

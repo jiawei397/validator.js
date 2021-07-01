@@ -311,7 +311,7 @@ function enIeCheck(tin: string) {
 }
 
 // Valid US IRS campus prefixes
-const enUsCampusPrefix = {
+const enUsCampusPrefix: any = {
   andover: ["10", "12"],
   atlanta: ["60", "67"],
   austin: ["50", "53"],
@@ -415,10 +415,10 @@ function enUsCheck(tin: string) {
  */
 function esEsCheck(tin: string) {
   // Split characters into an array for further processing
-  let chars = tin.toUpperCase().split("");
+  let chars: (number | string)[] = tin.toUpperCase().split("");
 
   // Replace initial letter if needed
-  if (isNaN(parseInt(chars[0], 10)) && chars.length > 1) {
+  if (isNaN(parseInt(chars[0] as string, 10)) && chars.length > 1) {
     let lead_replace = 0;
     switch (chars[0]) {
       case "Y":
@@ -463,9 +463,9 @@ function esEsCheck(tin: string) {
     "K",
     "E",
   ];
-  chars = chars.join("");
-  let checksum = (parseInt(chars.slice(0, 8), 10) % 23);
-  return chars[8] === lookup[checksum];
+  const charsStr = chars.join("");
+  const checksum = (parseInt(charsStr.slice(0, 8), 10) % 23);
+  return charsStr[8] === lookup[checksum];
 }
 
 /*
@@ -673,7 +673,7 @@ function huHuCheck(tin: string) {
  * Vowels may only be followed by other vowels or an X character
  * and X characters after vowels may only be followed by other X characters.
  */
-function itItNameCheck(name) {
+function itItNameCheck(name: string[]) {
   // true at the first occurence of a vowel
   let vowelflag = false;
 
@@ -716,7 +716,7 @@ function itItCheck(tin: string) {
 
   // Convert letters in number spaces back to numbers if any
   const number_locations = [6, 7, 9, 10, 12, 13, 14];
-  const number_replace = {
+  const number_replace: any = {
     L: "0",
     M: "1",
     N: "2",
@@ -735,7 +735,7 @@ function itItCheck(tin: string) {
   }
 
   // Extract month and day, and check date validity
-  const month_replace = {
+  const month_replace: any = {
     A: "01",
     B: "02",
     C: "03",
@@ -751,7 +751,7 @@ function itItCheck(tin: string) {
   };
   let month = month_replace[chars[8]];
 
-  let day = parseInt(chars[9] + chars[10], 10);
+  let day: number | string = parseInt(chars[9] + chars[10], 10);
   if (day > 40) day -= 40;
   if (day < 10) day = `0${day}`;
 
@@ -768,7 +768,7 @@ function itItCheck(tin: string) {
     checksum += char_to_int;
   }
 
-  const odd_convert = { // Maps of characters at odd places
+  const odd_convert: any = { // Maps of characters at odd places
     A: 1,
     B: 0,
     C: 5,
@@ -866,7 +866,7 @@ function lvLvCheck(tin: string) {
  */
 function mtMtCheck(tin: string) {
   if (tin.length !== 9) { // No tests for UTR
-    let chars = tin.toUpperCase().split("");
+    let chars: any[] = tin.toUpperCase().split("");
     // Fill with zeros if smaller than proper
     while (chars.length < 8) {
       chars.unshift(0);
@@ -924,7 +924,7 @@ function plPlCheck(tin: string) {
   // PESEL
   // Extract full year using month
   let full_year = tin.slice(0, 2);
-  let month = parseInt(tin.slice(2, 4), 10);
+  let month: string | number = parseInt(tin.slice(2, 4), 10);
   if (month > 80) {
     full_year = `18${full_year}`;
     month -= 80;
@@ -1032,7 +1032,7 @@ function ptBrCheck(tin: string) {
   }
 
   let length = tin.length - 2;
-  let identifiers = tin.substring(0, length);
+  let identifiers: any = tin.substring(0, length);
   let verificators = tin.substring(length);
   let sum = 0;
   let pos = length - 7;
@@ -1135,7 +1135,7 @@ function skSkCheck(tin: string) {
     if (tin.slice(6) === "000") return false; // Three-zero serial not assigned before 1954
 
     // Extract full year from TIN length
-    let full_year = parseInt(tin.slice(0, 2), 10);
+    let full_year: number | string = parseInt(tin.slice(0, 2), 10);
     if (full_year > 53) return false;
     if (full_year < 10) {
       full_year = `190${full_year}`;
@@ -1144,7 +1144,7 @@ function skSkCheck(tin: string) {
     }
 
     // Extract month from TIN and normalize
-    let month = parseInt(tin.slice(2, 4), 10);
+    let month: number | string = parseInt(tin.slice(2, 4), 10);
     if (month > 50) {
       month -= 50;
     }
@@ -1187,7 +1187,7 @@ function svSeCheck(tin: string) {
   // Extract date of birth
   let full_year = "";
   const month = tin_copy.slice(2, 4);
-  let day = parseInt(tin_copy.slice(4, 6), 10);
+  let day: number | string = parseInt(tin_copy.slice(4, 6), 10);
   if (tin.length > 11) {
     full_year = tin.slice(0, 4);
   } else {
@@ -1195,7 +1195,7 @@ function svSeCheck(tin: string) {
     if (tin.length === 11 && day < 60) {
       // Extract full year from centenarian symbol
       // Should work just fine until year 10000 or so
-      let current_year = new Date().getFullYear().toString();
+      let current_year: string | number = new Date().getFullYear().toString();
       const current_century = parseInt(current_year.slice(0, 2), 10);
       current_year = parseInt(current_year, 10);
       if (tin[6] === "-") {
@@ -1230,7 +1230,7 @@ function svSeCheck(tin: string) {
  * Where not explicitly specified in DG-TAXUD document both
  * uppercase and lowercase letters are acceptable.
  */
-const taxIdFormat = {
+const taxIdFormat: any = {
   "bg-BG": /^\d{10}$/,
   "cs-CZ": /^\d{6}\/{0,1}\d{3,4}$/,
   "de-AT": /^\d{9}$/,
@@ -1269,7 +1269,7 @@ taxIdFormat["lt-LT"] = taxIdFormat["et-EE"];
 taxIdFormat["nl-BE"] = taxIdFormat["fr-BE"];
 
 // Algorithmic tax id check functions for various locales
-const taxIdCheck = {
+const taxIdCheck: any = {
   "bg-BG": bgBgCheck,
   "cs-CZ": csCzCheck,
   "de-AT": deAtCheck,
@@ -1306,7 +1306,7 @@ taxIdCheck["nl-BE"] = taxIdCheck["fr-BE"];
 
 // Regexes for locales where characters should be omitted before checking format
 const allsymbols = /[-\\\/!@#$%\^&\*\(\)\+\=\[\]]+/g;
-const sanitizeRegexes = {
+const sanitizeRegexes: any = {
   "de-AT": allsymbols,
   "de-DE": /[\/\\]/g,
   "fr-BE": allsymbols,
@@ -1320,7 +1320,7 @@ sanitizeRegexes["nl-BE"] = sanitizeRegexes["fr-BE"];
  * for the specified locale.
  * Throw an error exception if the locale is not supported.
  */
-export default function isTaxID(str, locale = "en-US") {
+export default function isTaxID(str: string, locale = "en-US") {
   assertString(str);
   // Copy TIN to avoid replacement if sanitized
   let strcopy = str.slice(0);

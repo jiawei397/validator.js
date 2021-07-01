@@ -7,8 +7,7 @@ function currencyRegex(options: any) {
     if (index !== 0) decimal_digits = `${decimal_digits}|\\d{${digit}}`;
   });
 
-  const symbol = `(${
-      options.symbol.replace(/\W/, (m) => `\\${m}`)
+  const symbol = `(${options.symbol.replace(/\W/, (m: string) => `\\${m}`)
     })${(options.require_symbol ? "" : "?")}`,
     negative = "-?",
     whole_dollar_amount_without_sep = "[1-9]\\d*",
@@ -20,9 +19,8 @@ function currencyRegex(options: any) {
       whole_dollar_amount_with_sep,
     ],
     whole_dollar_amount = `(${valid_whole_dollar_amounts.join("|")})?`,
-    decimal_amount = `(\\${options.decimal_separator}(${decimal_digits}))${
-      options.require_decimal ? "" : "?"
-    }`;
+    decimal_amount = `(\\${options.decimal_separator}(${decimal_digits}))${options.require_decimal ? "" : "?"
+      }`;
   let pattern = whole_dollar_amount +
     (options.allow_decimal || options.require_decimal ? decimal_amount : "");
 

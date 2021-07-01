@@ -6,7 +6,7 @@ import assertString from "./util/assertString.ts";
  * https://docs.microsoft.com/en-us/microsoft-365/compliance/eu-passport-number -- EU Passport Number
  * https://countrycode.org/ -- Country Codes
  */
-const passportRegexByCountryCode = {
+const passportRegexByCountryCode: any = {
   AM: /^[A-Z]{2}\d{7}$/, // ARMENIA
   AR: /^[A-Z]{3}\d{6}$/, // ARGENTINA
   AT: /^[A-Z]\d{7}$/, // AUSTRIA
@@ -67,7 +67,7 @@ const passportRegexByCountryCode = {
  * @param {string} countryCode
  * @return {boolean}
  */
-export default function isPassportNumber(str, countryCode) {
+export default function isPassportNumber(str: string, countryCode: string) {
   assertString(str);
   /** Remove All Whitespaces, Convert to UPPERCASE */
   const normalizedStr = str.replace(/\s/g, "").toUpperCase();

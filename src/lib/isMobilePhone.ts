@@ -1,7 +1,7 @@
 import assertString from "./util/assertString.ts";
 
 /* eslint-disable max-len */
-const phones = {
+const phones: any = {
   "am-AM": /^(\+?374|0)((10|[9|7][0-9])\d{6}$|[2-4]\d{7}$)/,
   "ar-AE": /^((\+?971)|0)?5[024568]\d{7}$/,
   "ar-BH": /^(\+?973)?(3|6)\d{7}$/,
@@ -137,7 +137,7 @@ phones["ga-IE"] = phones["en-IE"];
 phones["fr-CH"] = phones["de-CH"];
 phones["it-CH"] = phones["fr-CH"];
 
-export default function isMobilePhone(str, locale, options) {
+export default function isMobilePhone(str: string, locale: any, options: any) {
   assertString(str);
   if (options && options.strictMode && !str.startsWith("+")) {
     return false;

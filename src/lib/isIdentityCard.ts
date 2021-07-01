@@ -6,7 +6,7 @@ const validators: any = {
 
     const DNI = /^[0-9X-Z][0-9]{7}[TRWAGMYFPDXBNJZSQVHLCKE]$/;
 
-    const charsValue = {
+    const charsValue: any = {
       X: 0,
       Y: 1,
       Z: 2,
@@ -52,7 +52,7 @@ const validators: any = {
       (char) => charsValue[char],
     );
 
-    return sanitized.endsWith(controlDigits[number % 23]);
+    return sanitized.endsWith(controlDigits[Number(number) % 23]);
   },
   IN: (str: string) => {
     const DNI = /^[1-9]\d{3}\s?\d{4}\s?\d{4}$/;
@@ -249,10 +249,10 @@ const validators: any = {
 
     const parityBit = ["1", "0", "X", "9", "8", "7", "6", "5", "4", "3", "2"];
 
-    const checkAddressCode = (addressCode) =>
+    const checkAddressCode = (addressCode: string) =>
       provincesAndCities.includes(addressCode);
 
-    const checkBirthDayCode = (birDayCode) => {
+    const checkBirthDayCode = (birDayCode: string) => {
       const yyyy = parseInt(birDayCode.substring(0, 4), 10);
       const mm = parseInt(birDayCode.substring(4, 6), 10);
       const dd = parseInt(birDayCode.substring(6), 10);
@@ -269,7 +269,7 @@ const validators: any = {
       return false;
     };
 
-    const getParityBit = (idCardNo) => {
+    const getParityBit = (idCardNo: string) => {
       let id17 = idCardNo.substring(0, 17);
 
       let power = 0;
@@ -281,10 +281,10 @@ const validators: any = {
       return parityBit[mod];
     };
 
-    const checkParityBit = (idCardNo) =>
+    const checkParityBit = (idCardNo: string) =>
       getParityBit(idCardNo) === idCardNo.charAt(17).toUpperCase();
 
-    const check15IdCardNo = (idCardNo) => {
+    const check15IdCardNo = (idCardNo: string) => {
       let check =
         /^[1-9]\d{7}((0[1-9])|(1[0-2]))((0[1-9])|([1-2][0-9])|(3[0-1]))\d{3}$/
           .test(idCardNo);
@@ -298,7 +298,7 @@ const validators: any = {
       return true;
     };
 
-    const check18IdCardNo = (idCardNo) => {
+    const check18IdCardNo = (idCardNo: string) => {
       let check =
         /^[1-9]\d{5}[1-9]\d{3}((0[1-9])|(1[0-2]))((0[1-9])|([1-2][0-9])|(3[0-1]))\d{3}(\d|x|X)$/
           .test(idCardNo);
@@ -312,7 +312,7 @@ const validators: any = {
       return checkParityBit(idCardNo);
     };
 
-    const checkIdCardNo = (idCardNo) => {
+    const checkIdCardNo = (idCardNo: string) => {
       let check = /^\d{15}|(\d{17}(\d|x|X))$/.test(idCardNo);
       if (!check) return false;
       if (idCardNo.length === 15) {
@@ -323,7 +323,7 @@ const validators: any = {
     return checkIdCardNo(str);
   },
   "zh-TW": (str: string) => {
-    const ALPHABET_CODES = {
+    const ALPHABET_CODES: any = {
       A: 10,
       B: 11,
       C: 12,
@@ -356,7 +356,7 @@ const validators: any = {
 
     if (!/^[A-Z][0-9]{9}$/.test(sanitized)) return false;
 
-    return Array.from(sanitized).reduce((sum, number, index) => {
+    return Array.from(sanitized).reduce((sum: any, number: string, index: number) => {
       if (index === 0) {
         const code = ALPHABET_CODES[number];
 

@@ -52,7 +52,7 @@ function validateDisplayName(display_name: string) {
     // the quotes in display name must start with character symbol \
     const all_start_with_back_slash =
       display_name_without_quotes.split('"').length ===
-        display_name_without_quotes.split('\\"').length;
+      display_name_without_quotes.split('\\"').length;
     if (!all_start_with_back_slash) {
       return false;
     }
@@ -94,7 +94,7 @@ export default function isEmail(str: string, options: any) {
   }
 
   const parts = str.split("@");
-  const domain = parts.pop();
+  const domain: string = parts.pop()!;
   let user = parts.join("@");
 
   const lower_domain = domain.toLowerCase();
