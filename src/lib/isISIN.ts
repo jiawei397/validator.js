@@ -1,4 +1,4 @@
-import assertString from "./util/assertString";
+import assertString from "./util/assertString.ts";
 
 const isin = /^[A-Z]{2}[0-9A-Z]{9}[0-9]$/;
 
@@ -9,7 +9,7 @@ const isin = /^[A-Z]{2}[0-9A-Z]{9}[0-9]$/;
 // each alpha character is handled as 2 characters within
 // the loop.
 
-export default function isISIN(str) {
+export default function isISIN(str: string) {
   assertString(str);
   if (!isin.test(str)) {
     return false;

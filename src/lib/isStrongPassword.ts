@@ -1,5 +1,5 @@
 import merge from "./util/merge";
-import assertString from "./util/assertString";
+import assertString from "./util/assertString.ts";
 
 const upperCaseRegex = /^[A-Z]$/;
 const lowerCaseRegex = /^[a-z]$/;
@@ -24,7 +24,7 @@ const defaultOptions = {
 /* Counts number of occurrences of each char in a string
  * could be moved to util/ ?
 */
-function countChars(str) {
+function countChars(str: string) {
   let result = {};
   Array.from(str).forEach((char) => {
     let curVal = result[char];

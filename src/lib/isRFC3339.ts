@@ -1,4 +1,4 @@
-import assertString from "./util/assertString";
+import assertString from "./util/assertString.ts";
 
 /* Based on https://tools.ietf.org/html/rfc3339#section-5.6 */
 
@@ -25,7 +25,7 @@ const fullTime = new RegExp(`${partialTime.source}${timeOffset.source}`);
 
 const rfc3339 = new RegExp(`^${fullDate.source}[ tT]${fullTime.source}$`);
 
-export default function isRFC3339(str) {
+export default function isRFC3339(str: string) {
   assertString(str);
   return rfc3339.test(str);
 }

@@ -24,7 +24,7 @@ export function iso7064Check(str: string) {
  * Called with a string of numbers (incl. check digit)
  * to validate according to the Luhn algorithm.
  */
-export function luhnCheck(str) {
+export function luhnCheck(str: string) {
   let checksum = 0;
   let second = false;
   for (let i = str.length - 1; i >= 0; i--) {
@@ -64,7 +64,7 @@ export function reverseMultiplyAndSum(digits, base) {
  * Called with a string of numbers
  * to validate according to the Verhoeff algorithm.
  */
-export function verhoeffCheck(str) {
+export function verhoeffCheck(str: string) {
   const d_table = [
     [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
     [1, 2, 3, 4, 0, 6, 7, 8, 9, 5],

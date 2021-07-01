@@ -1,4 +1,4 @@
-import assertString from "./util/assertString";
+import assertString from "./util/assertString.ts";
 import { decimal } from "./alpha";
 
 const numericNoSymbols = /^[0-9]+$/;
@@ -9,10 +9,9 @@ export default function isNumeric(str: string, options: any) {
     return numericNoSymbols.test(str);
   }
   return (new RegExp(
-    `^[+-]?([0-9]*[${
-      (options || {}).locale
-        ? decimal[options.locale]
-        : "."
+    `^[+-]?([0-9]*[${(options || {}).locale
+      ? decimal[options.locale]
+      : "."
     }])?[0-9]+$`,
   )).test(str);
 }

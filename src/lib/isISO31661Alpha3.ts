@@ -1,5 +1,5 @@
-import assertString from "./util/assertString";
-import includes from "./util/includes";
+import assertString from "./util/assertString.ts";
+import includes from "./util/includes.ts";
 
 // from https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3
 const validISO31661Alpha3CountriesCodes = [
@@ -254,7 +254,7 @@ const validISO31661Alpha3CountriesCodes = [
   "ZWE",
 ];
 
-export default function isISO31661Alpha3(str) {
+export default function isISO31661Alpha3(str: string) {
   assertString(str);
   return includes(validISO31661Alpha3CountriesCodes, str.toUpperCase());
 }

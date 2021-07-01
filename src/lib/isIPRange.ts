@@ -7,7 +7,7 @@ const v6Subnet = 128;
 
 export default function isIPRange(str: string, version = "") {
   assertString(str);
-  const parts = str.split("/");
+  const parts: any[] = str.split("/");
 
   // parts[0] -> ip, parts[1] -> subnet
   if (parts.length !== 2) {

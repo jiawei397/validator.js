@@ -1,4 +1,4 @@
-import assertString from "./util/assertString";
+import assertString from "./util/assertString.ts";
 
 // from https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2
 const validISO31661Alpha2CountriesCodes = [
@@ -253,7 +253,7 @@ const validISO31661Alpha2CountriesCodes = [
   "ZW",
 ];
 
-export default function isISO31661Alpha2(str) {
+export default function isISO31661Alpha2(str: string) {
   assertString(str);
   return validISO31661Alpha2CountriesCodes.indexOf(str.toUpperCase()) >= 0;
 }

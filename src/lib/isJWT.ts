@@ -1,7 +1,7 @@
-import assertString from "./util/assertString";
-import isBase64 from "./isBase64";
+import assertString from "./util/assertString.ts";
+import isBase64 from "./isBase64.ts";
 
-export default function isJWT(str) {
+export default function isJWT(str: string) {
   assertString(str);
 
   const dotSplit = str.split(".");
