@@ -1,4 +1,4 @@
-import assertString from './util/assertString';
+import assertString from "./util/assertString";
 
 // common patterns
 const threeDigit = /^\d{3}$/;
@@ -15,9 +15,11 @@ const patterns = {
   BG: fourDigit,
   BR: /^\d{5}-\d{3}$/,
   BY: /2[1-4]{1}\d{4}$/,
-  CA: /^[ABCEGHJKLMNPRSTVXY]\d[ABCEGHJ-NPRSTV-Z][\s\-]?\d[ABCEGHJ-NPRSTV-Z]\d$/i,
+  CA:
+    /^[ABCEGHJKLMNPRSTVXY]\d[ABCEGHJ-NPRSTV-Z][\s\-]?\d[ABCEGHJ-NPRSTV-Z]\d$/i,
   CH: fourDigit,
-  CN: /^(0[1-7]|1[012356]|2[0-7]|3[0-6]|4[0-7]|5[1-7]|6[1-7]|7[1-5]|8[1345]|9[09])\d{4}$/,
+  CN:
+    /^(0[1-7]|1[012356]|2[0-7]|3[0-6]|4[0-7]|5[1-7]|6[1-7]|7[1-5]|8[1345]|9[09])\d{4}$/,
   CZ: /^\d{3}\s?\d{2}$/,
   DE: fiveDigit,
   DK: fourDigit,
@@ -78,7 +80,7 @@ export default function isPostalCode(str, locale) {
   assertString(str);
   if (locale in patterns) {
     return patterns[locale].test(str);
-  } else if (locale === 'any') {
+  } else if (locale === "any") {
     for (const key in patterns) {
       // https://github.com/gotwarlost/istanbul/blob/master/ignoring-code-for-coverage.md#ignoring-code-for-coverage-purposes
       // istanbul ignore else

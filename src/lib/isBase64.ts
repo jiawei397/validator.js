@@ -1,5 +1,5 @@
-import assertString from './util/assertString.ts';
-import merge from './util/merge.ts';
+import assertString from "./util/assertString.ts";
+import merge from "./util/merge.ts";
 
 const notBase64 = /[^A-Z0-9+\/=]/i;
 const urlSafeBase64 = /^[A-Z0-9_\-]*$/i;
@@ -21,8 +21,8 @@ export default function isBase64(str: string, options: any) {
     return false;
   }
 
-  const firstPaddingChar = str.indexOf('=');
+  const firstPaddingChar = str.indexOf("=");
   return firstPaddingChar === -1 ||
     firstPaddingChar === len - 1 ||
-    (firstPaddingChar === len - 2 && str[len - 1] === '=');
+    (firstPaddingChar === len - 2 && str[len - 1] === "=");
 }

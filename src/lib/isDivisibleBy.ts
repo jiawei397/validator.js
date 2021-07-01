@@ -1,5 +1,5 @@
-import assertString from './util/assertString.ts';
-import toFloat from './toFloat.ts';
+import assertString from "./util/assertString.ts";
+import toFloat from "./toFloat.ts";
 
 export default function isDivisibleBy(str: string, num: string) {
   assertString(str);

@@ -1,4 +1,4 @@
-import merge from './util/merge';
+import merge from "./util/merge";
 
 const default_normalize_email_options = {
   // The following options apply to all email addresses
@@ -42,8 +42,8 @@ const default_normalize_email_options = {
 
 // List of domains used by iCloud
 const icloud_domains = [
-  'icloud.com',
-  'me.com',
+  "icloud.com",
+  "me.com",
 ];
 
 // List of domains used by Outlook.com and its predecessors
@@ -51,112 +51,112 @@ const icloud_domains = [
 // Partial reference:
 // https://blogs.office.com/2013/04/17/outlook-com-gets-two-step-verification-sign-in-by-alias-and-new-international-domains/
 const outlookdotcom_domains = [
-  'hotmail.at',
-  'hotmail.be',
-  'hotmail.ca',
-  'hotmail.cl',
-  'hotmail.co.il',
-  'hotmail.co.nz',
-  'hotmail.co.th',
-  'hotmail.co.uk',
-  'hotmail.com',
-  'hotmail.com.ar',
-  'hotmail.com.au',
-  'hotmail.com.br',
-  'hotmail.com.gr',
-  'hotmail.com.mx',
-  'hotmail.com.pe',
-  'hotmail.com.tr',
-  'hotmail.com.vn',
-  'hotmail.cz',
-  'hotmail.de',
-  'hotmail.dk',
-  'hotmail.es',
-  'hotmail.fr',
-  'hotmail.hu',
-  'hotmail.id',
-  'hotmail.ie',
-  'hotmail.in',
-  'hotmail.it',
-  'hotmail.jp',
-  'hotmail.kr',
-  'hotmail.lv',
-  'hotmail.my',
-  'hotmail.ph',
-  'hotmail.pt',
-  'hotmail.sa',
-  'hotmail.sg',
-  'hotmail.sk',
-  'live.be',
-  'live.co.uk',
-  'live.com',
-  'live.com.ar',
-  'live.com.mx',
-  'live.de',
-  'live.es',
-  'live.eu',
-  'live.fr',
-  'live.it',
-  'live.nl',
-  'msn.com',
-  'outlook.at',
-  'outlook.be',
-  'outlook.cl',
-  'outlook.co.il',
-  'outlook.co.nz',
-  'outlook.co.th',
-  'outlook.com',
-  'outlook.com.ar',
-  'outlook.com.au',
-  'outlook.com.br',
-  'outlook.com.gr',
-  'outlook.com.pe',
-  'outlook.com.tr',
-  'outlook.com.vn',
-  'outlook.cz',
-  'outlook.de',
-  'outlook.dk',
-  'outlook.es',
-  'outlook.fr',
-  'outlook.hu',
-  'outlook.id',
-  'outlook.ie',
-  'outlook.in',
-  'outlook.it',
-  'outlook.jp',
-  'outlook.kr',
-  'outlook.lv',
-  'outlook.my',
-  'outlook.ph',
-  'outlook.pt',
-  'outlook.sa',
-  'outlook.sg',
-  'outlook.sk',
-  'passport.com',
+  "hotmail.at",
+  "hotmail.be",
+  "hotmail.ca",
+  "hotmail.cl",
+  "hotmail.co.il",
+  "hotmail.co.nz",
+  "hotmail.co.th",
+  "hotmail.co.uk",
+  "hotmail.com",
+  "hotmail.com.ar",
+  "hotmail.com.au",
+  "hotmail.com.br",
+  "hotmail.com.gr",
+  "hotmail.com.mx",
+  "hotmail.com.pe",
+  "hotmail.com.tr",
+  "hotmail.com.vn",
+  "hotmail.cz",
+  "hotmail.de",
+  "hotmail.dk",
+  "hotmail.es",
+  "hotmail.fr",
+  "hotmail.hu",
+  "hotmail.id",
+  "hotmail.ie",
+  "hotmail.in",
+  "hotmail.it",
+  "hotmail.jp",
+  "hotmail.kr",
+  "hotmail.lv",
+  "hotmail.my",
+  "hotmail.ph",
+  "hotmail.pt",
+  "hotmail.sa",
+  "hotmail.sg",
+  "hotmail.sk",
+  "live.be",
+  "live.co.uk",
+  "live.com",
+  "live.com.ar",
+  "live.com.mx",
+  "live.de",
+  "live.es",
+  "live.eu",
+  "live.fr",
+  "live.it",
+  "live.nl",
+  "msn.com",
+  "outlook.at",
+  "outlook.be",
+  "outlook.cl",
+  "outlook.co.il",
+  "outlook.co.nz",
+  "outlook.co.th",
+  "outlook.com",
+  "outlook.com.ar",
+  "outlook.com.au",
+  "outlook.com.br",
+  "outlook.com.gr",
+  "outlook.com.pe",
+  "outlook.com.tr",
+  "outlook.com.vn",
+  "outlook.cz",
+  "outlook.de",
+  "outlook.dk",
+  "outlook.es",
+  "outlook.fr",
+  "outlook.hu",
+  "outlook.id",
+  "outlook.ie",
+  "outlook.in",
+  "outlook.it",
+  "outlook.jp",
+  "outlook.kr",
+  "outlook.lv",
+  "outlook.my",
+  "outlook.ph",
+  "outlook.pt",
+  "outlook.sa",
+  "outlook.sg",
+  "outlook.sk",
+  "passport.com",
 ];
 
 // List of domains used by Yahoo Mail
 // This list is likely incomplete
 const yahoo_domains = [
-  'rocketmail.com',
-  'yahoo.ca',
-  'yahoo.co.uk',
-  'yahoo.com',
-  'yahoo.de',
-  'yahoo.fr',
-  'yahoo.in',
-  'yahoo.it',
-  'ymail.com',
+  "rocketmail.com",
+  "yahoo.ca",
+  "yahoo.co.uk",
+  "yahoo.com",
+  "yahoo.de",
+  "yahoo.fr",
+  "yahoo.in",
+  "yahoo.it",
+  "ymail.com",
 ];
 
 // List of domains used by yandex.ru
 const yandex_domains = [
-  'yandex.ru',
-  'yandex.ua',
-  'yandex.kz',
-  'yandex.com',
-  'yandex.by',
-  'ya.ru',
+  "yandex.ru",
+  "yandex.ua",
+  "yandex.kz",
+  "yandex.com",
+  "yandex.by",
+  "ya.ru",
 ];
 
 // replace single dots, but not multiple consecutive dots
@@ -164,24 +164,24 @@ function dotsReplacer(match) {
   if (match.length > 1) {
     return match;
   }
-  return '';
+  return "";
 }
 
 export default function normalizeEmail(email, options) {
   options = merge(options, default_normalize_email_options);
 
-  const raw_parts = email.split('@');
+  const raw_parts = email.split("@");
   const domain = raw_parts.pop();
-  const user = raw_parts.join('@');
+  const user = raw_parts.join("@");
   const parts = [user, domain];
 
   // The domain is always lowercased, as it's case-insensitive per RFC 1035
   parts[1] = parts[1].toLowerCase();
 
-  if (parts[1] === 'gmail.com' || parts[1] === 'googlemail.com') {
+  if (parts[1] === "gmail.com" || parts[1] === "googlemail.com") {
     // Address is GMail
     if (options.gmail_remove_subaddress) {
-      parts[0] = parts[0].split('+')[0];
+      parts[0] = parts[0].split("+")[0];
     }
     if (options.gmail_remove_dots) {
       // this does not replace consecutive dots like example..email@gmail.com
@@ -193,11 +193,11 @@ export default function normalizeEmail(email, options) {
     if (options.all_lowercase || options.gmail_lowercase) {
       parts[0] = parts[0].toLowerCase();
     }
-    parts[1] = options.gmail_convert_googlemaildotcom ? 'gmail.com' : parts[1];
+    parts[1] = options.gmail_convert_googlemaildotcom ? "gmail.com" : parts[1];
   } else if (icloud_domains.indexOf(parts[1]) >= 0) {
     // Address is iCloud
     if (options.icloud_remove_subaddress) {
-      parts[0] = parts[0].split('+')[0];
+      parts[0] = parts[0].split("+")[0];
     }
     if (!parts[0].length) {
       return false;
@@ -208,7 +208,7 @@ export default function normalizeEmail(email, options) {
   } else if (outlookdotcom_domains.indexOf(parts[1]) >= 0) {
     // Address is Outlook.com
     if (options.outlookdotcom_remove_subaddress) {
-      parts[0] = parts[0].split('+')[0];
+      parts[0] = parts[0].split("+")[0];
     }
     if (!parts[0].length) {
       return false;
@@ -219,8 +219,10 @@ export default function normalizeEmail(email, options) {
   } else if (yahoo_domains.indexOf(parts[1]) >= 0) {
     // Address is Yahoo
     if (options.yahoo_remove_subaddress) {
-      let components = parts[0].split('-');
-      parts[0] = (components.length > 1) ? components.slice(0, -1).join('-') : components[0];
+      let components = parts[0].split("-");
+      parts[0] = (components.length > 1)
+        ? components.slice(0, -1).join("-")
+        : components[0];
     }
     if (!parts[0].length) {
       return false;
@@ -232,10 +234,10 @@ export default function normalizeEmail(email, options) {
     if (options.all_lowercase || options.yandex_lowercase) {
       parts[0] = parts[0].toLowerCase();
     }
-    parts[1] = 'yandex.ru'; // all yandex domains are equal, 1st preferred
+    parts[1] = "yandex.ru"; // all yandex domains are equal, 1st preferred
   } else if (options.all_lowercase) {
     // Any other address
     parts[0] = parts[0].toLowerCase();
   }
-  return parts.join('@');
+  return parts.join("@");
 }

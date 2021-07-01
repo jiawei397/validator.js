@@ -1,20 +1,30 @@
-import merge from './util/merge';
-import assertString from './util/assertString';
+import merge from "./util/merge.ts";
+import assertString from "./util/assertString.ts";
 
-function currencyRegex(options) {
+function currencyRegex(options: any) {
   let decimal_digits = `\\d{${options.digits_after_decimal[0]}}`;
-  options.digits_after_decimal.forEach((digit, index) => { if (index !== 0) decimal_digits = `${decimal_digits}|\\d{${digit}}`; });
+  options.digits_after_decimal.forEach((digit: string, index: number) => {
+    if (index !== 0) decimal_digits = `${decimal_digits}|\\d{${digit}}`;
+  });
 
-  const symbol =
-    `(${options.symbol.replace(/\W/, m => `\\${m}`)})${(options.require_symbol ? '' : '?')}`,
-    negative = '-?',
-    whole_dollar_amount_without_sep = '[1-9]\\d*',
-    whole_dollar_amount_with_sep = `[1-9]\\d{0,2}(\\${options.thousands_separator}\\d{3})*`,
+  const symbol = `(${
+      options.symbol.replace(/\W/, (m) => `\\${m}`)
+    })${(options.require_symbol ? "" : "?")}`,
+    negative = "-?",
+    whole_dollar_amount_without_sep = "[1-9]\\d*",
+    whole_dollar_amount_with_sep =
+      `[1-9]\\d{0,2}(\\${options.thousands_separator}\\d{3})*`,
     valid_whole_dollar_amounts = [
-      '0', whole_dollar_amount_without_sep, whole_dollar_amount_with_sep],
-    whole_dollar_amount = `(${valid_whole_dollar_amounts.join('|')})?`,
-    decimal_amount = `(\\${options.decimal_separator}(${decimal_digits}))${options.require_decimal ? '' : '?'}`;
-  let pattern = whole_dollar_amount + (options.allow_decimal || options.require_decimal ? decimal_amount : '');
+      "0",
+      whole_dollar_amount_without_sep,
+      whole_dollar_amount_with_sep,
+    ],
+    whole_dollar_amount = `(${valid_whole_dollar_amounts.join("|")})?`,
+    decimal_amount = `(\\${options.decimal_separator}(${decimal_digits}))${
+      options.require_decimal ? "" : "?"
+    }`;
+  let pattern = whole_dollar_amount +
+    (options.allow_decimal || options.require_decimal ? decimal_amount : "");
 
   // default is negative sign before symbol, but there are two other options (besides parens)
   if (options.allow_negatives && !options.parens_for_negatives) {
@@ -31,7 +41,7 @@ function currencyRegex(options) {
   } else if (options.allow_space_after_symbol) {
     pattern = ` ?${pattern}`;
   } else if (options.allow_space_after_digits) {
-    pattern += '( (?!$))?';
+    pattern += "( (?!$))?";
   }
 
   if (options.symbol_after_digits) {
@@ -43,7 +53,10 @@ function currencyRegex(options) {
   if (options.allow_negatives) {
     if (options.parens_for_negatives) {
       pattern = `(\\(${pattern}\\)|${pattern})`;
-    } else if (!(options.negative_sign_before_digits || options.negative_sign_after_digits)) {
+    } else if (
+      !(options.negative_sign_before_digits ||
+        options.negative_sign_after_digits)
+    ) {
       pattern = negative + pattern;
     }
   }
@@ -53,9 +66,8 @@ function currencyRegex(options) {
   return new RegExp(`^(?!-? )(?=.*\\d)${pattern}$`);
 }
 
-
 const default_currency_options = {
-  symbol: '$',
+  symbol: "$",
   require_symbol: false,
   allow_space_after_symbol: false,
   symbol_after_digits: false,
@@ -64,8 +76,8 @@ const default_currency_options = {
   negative_sign_before_digits: false,
   negative_sign_after_digits: false,
   allow_negative_sign_placeholder: false,
-  thousands_separator: ',',
-  decimal_separator: '.',
+  thousands_separator: ",",
+  decimal_separator: ".",
   allow_decimal: true,
   require_decimal: false,
   digits_after_decimal: [2],

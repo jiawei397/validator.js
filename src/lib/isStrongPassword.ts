@@ -1,5 +1,5 @@
-import merge from './util/merge';
-import assertString from './util/assertString';
+import merge from "./util/merge";
+import assertString from "./util/assertString";
 
 const upperCaseRegex = /^[A-Z]$/;
 const lowerCaseRegex = /^[a-z]$/;
@@ -66,7 +66,8 @@ function analyzePassword(password) {
 function scorePassword(analysis, scoringOptions) {
   let points = 0;
   points += analysis.uniqueChars * scoringOptions.pointsPerUnique;
-  points += (analysis.length - analysis.uniqueChars) * scoringOptions.pointsPerRepeat;
+  points += (analysis.length - analysis.uniqueChars) *
+    scoringOptions.pointsPerRepeat;
   if (analysis.lowercaseCount > 0) {
     points += scoringOptions.pointsForContainingLower;
   }
@@ -89,9 +90,9 @@ export default function isStrongPassword(str: string, options: any = null) {
   if (options.returnScore) {
     return scorePassword(analysis, options);
   }
-  return analysis.length >= options.minLength
-    && analysis.lowercaseCount >= options.minLowercase
-    && analysis.uppercaseCount >= options.minUppercase
-    && analysis.numberCount >= options.minNumbers
-    && analysis.symbolCount >= options.minSymbols;
+  return analysis.length >= options.minLength &&
+    analysis.lowercaseCount >= options.minLowercase &&
+    analysis.uppercaseCount >= options.minUppercase &&
+    analysis.numberCount >= options.minNumbers &&
+    analysis.symbolCount >= options.minSymbols;
 }

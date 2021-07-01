@@ -1,4 +1,4 @@
-import assertString from './util/assertString';
+import assertString from "./util/assertString.ts";
 
 /**
  * List of country codes with
@@ -99,7 +99,7 @@ const ibanRegexThroughCountryCode = {
  */
 function hasValidIbanFormat(str) {
   // Strip white spaces and hyphens
-  const strippedStr = str.replace(/[\s\-]+/gi, '').toUpperCase();
+  const strippedStr = str.replace(/[\s\-]+/gi, "").toUpperCase();
   const isoCountryCode = strippedStr.slice(0, 2).toUpperCase();
 
   return (isoCountryCode in ibanRegexThroughCountryCode) &&
@@ -120,12 +120,15 @@ function hasValidIbanFormat(str) {
    * @return {boolean}
    */
 function hasValidIbanChecksum(str) {
-  const strippedStr = str.replace(/[^A-Z0-9]+/gi, '').toUpperCase(); // Keep only digits and A-Z latin alphabetic
+  const strippedStr = str.replace(/[^A-Z0-9]+/gi, "").toUpperCase(); // Keep only digits and A-Z latin alphabetic
   const rearranged = strippedStr.slice(4) + strippedStr.slice(0, 4);
-  const alphaCapsReplacedWithDigits = rearranged.replace(/[A-Z]/g, char => char.charCodeAt(0) - 55);
+  const alphaCapsReplacedWithDigits = rearranged.replace(
+    /[A-Z]/g,
+    (char) => char.charCodeAt(0) - 55,
+  );
 
   const remainder = alphaCapsReplacedWithDigits.match(/\d{1,7}/g)
-    .reduce((acc, value) => Number(acc + value) % 97, '');
+    .reduce((acc, value) => Number(acc + value) % 97, "");
 
   return remainder === 1;
 }

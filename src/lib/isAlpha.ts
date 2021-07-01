@@ -1,7 +1,11 @@
-import assertString from './util/assertString.ts';
-import { alpha } from './alpha.ts';
+import assertString from "./util/assertString.ts";
+import { alpha } from "./alpha.ts";
 
-export default function isAlpha(_str: string, locale = 'en-US', options: any = {}) {
+export default function isAlpha(
+  _str: string,
+  locale = "en-US",
+  options: any = {},
+) {
   assertString(_str);
 
   let str = _str;
@@ -9,11 +13,17 @@ export default function isAlpha(_str: string, locale = 'en-US', options: any = {
 
   if (ignore) {
     if (ignore instanceof RegExp) {
-      str = str.replace(ignore, '');
-    } else if (typeof ignore === 'string') {
-      str = str.replace(new RegExp(`[${ignore.replace(/[-[\]{}()*+?.,\\^$|#\\s]/g, '\\$&')}]`, 'g'), ''); // escape regex for ignore
+      str = str.replace(ignore, "");
+    } else if (typeof ignore === "string") {
+      str = str.replace(
+        new RegExp(
+          `[${ignore.replace(/[-[\]{}()*+?.,\\^$|#\\s]/g, "\\$&")}]`,
+          "g",
+        ),
+        "",
+      ); // escape regex for ignore
     } else {
-      throw new Error('ignore should be instance of a String or RegExp');
+      throw new Error("ignore should be instance of a String or RegExp");
     }
   }
 

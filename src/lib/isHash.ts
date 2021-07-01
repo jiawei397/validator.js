@@ -1,4 +1,4 @@
-import assertString from './util/assertString.ts';
+import assertString from "./util/assertString.ts";
 
 const lengths: any = {
   md5: 32,

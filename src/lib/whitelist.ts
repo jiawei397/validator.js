@@ -1,6 +1,6 @@
-import assertString from './util/assertString.ts';
+import assertString from "./util/assertString.ts";
 
 export default function whitelist(str: string, chars: string) {
   assertString(str);
-  return str.replace(new RegExp(`[^${chars}]+`, 'g'), '');
+  return str.replace(new RegExp(`[^${chars}]+`, "g"), "");
 }

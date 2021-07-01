@@ -1,10 +1,10 @@
-import assertString from './util/assertString';
-import toString from './util/toString';
+import assertString from "./util/assertString";
+import toString from "./util/toString";
 
 export default function isIn(str: string, options: any) {
   assertString(str);
   let i;
-  if (Object.prototype.toString.call(options) === '[object Array]') {
+  if (Object.prototype.toString.call(options) === "[object Array]") {
     const array = [];
     for (i in options) {
       // https://github.com/gotwarlost/istanbul/blob/master/ignoring-code-for-coverage.md#ignoring-code-for-coverage-purposes
@@ -14,9 +14,9 @@ export default function isIn(str: string, options: any) {
       }
     }
     return array.indexOf(str) >= 0;
-  } else if (typeof options === 'object') {
+  } else if (typeof options === "object") {
     return options.hasOwnProperty(str);
-  } else if (options && typeof options.indexOf === 'function') {
+  } else if (options && typeof options.indexOf === "function") {
     return options.indexOf(str) >= 0;
   }
   return false;

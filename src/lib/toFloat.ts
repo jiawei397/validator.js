@@ -1,4 +1,4 @@
-import isFloat from './isFloat';
+import isFloat from "./isFloat";
 
 export default function toFloat(str) {
   if (!isFloat(str)) return NaN;

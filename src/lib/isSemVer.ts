@@ -1,5 +1,5 @@
-import assertString from './util/assertString';
-import multilineRegexp from './util/multilineRegex';
+import assertString from "./util/assertString";
+import multilineRegexp from "./util/multilineRegex";
 
 /**
  * Regular Expression to match
@@ -8,10 +8,10 @@ import multilineRegexp from './util/multilineRegex';
  * Reference: https://semver.org/
  */
 const semanticVersioningRegex = multilineRegexp([
-  '^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)',
-  '(?:-((?:0|[1-9]\\d*|\\d*[a-z-][0-9a-z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-z-][0-9a-z-]*))*))',
-  '?(?:\\+([0-9a-z-]+(?:\\.[0-9a-z-]+)*))?$',
-], 'i');
+  "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)",
+  "(?:-((?:0|[1-9]\\d*|\\d*[a-z-][0-9a-z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-z-][0-9a-z-]*))*))",
+  "?(?:\\+([0-9a-z-]+(?:\\.[0-9a-z-]+)*))?$",
+], "i");
 
 export default function isSemVer(str) {
   assertString(str);

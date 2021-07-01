@@ -1,4 +1,4 @@
-import assertString from './util/assertString';
+import assertString from "./util/assertString";
 
 const isin = /^[A-Z]{2}[0-9A-Z]{9}[0-9]$/;
 
@@ -19,7 +19,7 @@ export default function isISIN(str) {
   let sum = 0;
   // convert values
   for (let i = str.length - 2; i >= 0; i--) {
-    if (str[i] >= 'A' && str[i] <= 'Z') {
+    if (str[i] >= "A" && str[i] <= "Z") {
       const value = str[i].charCodeAt(0) - 55;
       const lo = value % 10;
       const hi = Math.trunc(value / 10);
@@ -38,7 +38,7 @@ export default function isISIN(str) {
         double = !double;
       }
     } else {
-      const digit = str[i].charCodeAt(0) - '0'.charCodeAt(0);
+      const digit = str[i].charCodeAt(0) - "0".charCodeAt(0);
       if (double) {
         if (digit >= 5) {
           sum += 1 + ((digit - 5) * 2);

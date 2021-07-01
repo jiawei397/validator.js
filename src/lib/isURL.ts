@@ -1,8 +1,8 @@
-import assertString from './util/assertString';
+import assertString from "./util/assertString";
 
-import isFQDN from './isFQDN';
-import isIP from './isIP';
-import merge from './util/merge';
+import isFQDN from "./isFQDN";
+import isIP from "./isIP";
+import merge from "./util/merge";
 
 /*
 options for isURL method
@@ -17,9 +17,8 @@ validate_length - if set as false isURL will skip string length validation (IE m
 
 */
 
-
 const default_url_options = {
-  protocols: ['http', 'https', 'ftp'],
+  protocols: ["http", "https", "ftp"],
   require_tld: true,
   require_protocol: false,
   require_host: true,
@@ -34,7 +33,7 @@ const default_url_options = {
 const wrapped_ipv6 = /^\[([^\]]+)\](?::([0-9]+))?$/;
 
 function isRegExp(obj) {
-  return Object.prototype.toString.call(obj) === '[object RegExp]';
+  return Object.prototype.toString.call(obj) === "[object RegExp]";
 }
 
 function checkHost(host, matches) {
@@ -52,7 +51,7 @@ export default function isURL(url, options) {
   if (!url || /[\s<>]/.test(url)) {
     return false;
   }
-  if (url.indexOf('mailto:') === 0) {
+  if (url.indexOf("mailto:") === 0) {
     return false;
   }
   options = merge(options, default_url_options);
@@ -63,66 +62,69 @@ export default function isURL(url, options) {
 
   let protocol, auth, host, hostname, port, port_str, split, ipv6;
 
-  split = url.split('#');
+  split = url.split("#");
   url = split.shift();
 
-  split = url.split('?');
+  split = url.split("?");
   url = split.shift();
 
-  split = url.split('://');
+  split = url.split("://");
   if (split.length > 1) {
     protocol = split.shift().toLowerCase();
-    if (options.require_valid_protocol && options.protocols.indexOf(protocol) === -1) {
+    if (
+      options.require_valid_protocol &&
+      options.protocols.indexOf(protocol) === -1
+    ) {
       return false;
     }
   } else if (options.require_protocol) {
     return false;
-  } else if (url.substr(0, 2) === '//') {
+  } else if (url.substr(0, 2) === "//") {
     if (!options.allow_protocol_relative_urls) {
       return false;
     }
     split[0] = url.substr(2);
   }
-  url = split.join('://');
+  url = split.join("://");
 
-  if (url === '') {
+  if (url === "") {
     return false;
   }
 
-  split = url.split('/');
+  split = url.split("/");
   url = split.shift();
 
-  if (url === '' && !options.require_host) {
+  if (url === "" && !options.require_host) {
     return true;
   }
 
-  split = url.split('@');
+  split = url.split("@");
   if (split.length > 1) {
     if (options.disallow_auth) {
       return false;
     }
-    if (split[0] === '' || split[0].substr(0, 1) === ':') {
+    if (split[0] === "" || split[0].substr(0, 1) === ":") {
       return false;
     }
     auth = split.shift();
-    if (auth.indexOf(':') >= 0 && auth.split(':').length > 2) {
+    if (auth.indexOf(":") >= 0 && auth.split(":").length > 2) {
       return false;
     }
   }
-  hostname = split.join('@');
+  hostname = split.join("@");
 
   port_str = null;
   ipv6 = null;
   const ipv6_match = hostname.match(wrapped_ipv6);
   if (ipv6_match) {
-    host = '';
+    host = "";
     ipv6 = ipv6_match[1];
     port_str = ipv6_match[2] || null;
   } else {
-    split = hostname.split(':');
+    split = hostname.split(":");
     host = split.shift();
     if (split.length) {
-      port_str = split.join(':');
+      port_str = split.join(":");
     }
   }
 

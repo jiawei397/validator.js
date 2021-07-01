@@ -1,5 +1,5 @@
-import assertString from './util/assertString';
-import merge from './util/merge';
+import assertString from "./util/assertString.ts";
+import merge from "./util/merge.ts";
 
 const default_fqdn_options = {
   require_tld: true,
@@ -13,10 +13,10 @@ export default function isFQDN(str: string, options: any) {
   options = merge(options, default_fqdn_options);
 
   /* Remove the optional trailing dot before checking validity */
-  if (options.allow_trailing_dot && str[str.length - 1] === '.') {
+  if (options.allow_trailing_dot && str[str.length - 1] === ".") {
     str = str.substring(0, str.length - 1);
   }
-  const parts = str.split('.');
+  const parts = str.split(".");
   const tld = parts[parts.length - 1];
 
   if (options.require_tld) {
@@ -30,7 +30,11 @@ export default function isFQDN(str: string, options: any) {
     }
 
     // disallow spaces && special characers
-    if (/[\s\u2002-\u200B\u202F\u205F\u3000\uFEFF\uDB40\uDC20\u00A9\uFFFD]/.test(tld)) {
+    if (
+      /[\s\u2002-\u200B\u202F\u205F\u3000\uFEFF\uDB40\uDC20\u00A9\uFFFD]/.test(
+        tld,
+      )
+    ) {
       return false;
     }
   }

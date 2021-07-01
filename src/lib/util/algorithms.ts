@@ -11,8 +11,9 @@
 export function iso7064Check(str: string) {
   let checkvalue = 10;
   for (let i = 0; i < str.length - 1; i++) {
-    checkvalue = (parseInt(str[i], 10) + checkvalue) % 10 === 0 ? (10 * 2) % 11 :
-      (((parseInt(str[i], 10) + checkvalue) % 10) * 2) % 11;
+    checkvalue = (parseInt(str[i], 10) + checkvalue) % 10 === 0
+      ? (10 * 2) % 11
+      : (((parseInt(str[i], 10) + checkvalue) % 10) * 2) % 11;
   }
   checkvalue = checkvalue === 1 ? 0 : 11 - checkvalue;
   return checkvalue === parseInt(str[10], 10);
@@ -31,7 +32,8 @@ export function luhnCheck(str) {
       const product = parseInt(str[i], 10) * 2;
       if (product > 9) {
         // sum digits of product and add to checksum
-        checksum += product.toString().split('').map(a => parseInt(a, 10)).reduce((a, b) => a + b, 0);
+        checksum += product.toString().split("").map((a) => parseInt(a, 10))
+          .reduce((a, b) => a + b, 0);
       } else {
         checksum += product;
       }
@@ -88,7 +90,7 @@ export function verhoeffCheck(str) {
   ];
 
   // Copy (to prevent replacement) and reverse
-  const str_copy = str.split('').reverse().join('');
+  const str_copy = str.split("").reverse().join("");
   let checksum = 0;
   for (let i = 0; i < str_copy.length; i++) {
     checksum = d_table[checksum][p_table[i % 8][parseInt(str_copy[i], 10)]];

@@ -1,6 +1,6 @@
-import assertString from './util/assertString';
-import * as algorithms from './util/algorithms';
-import isDate from './isDate';
+import assertString from "./util/assertString";
+import * as algorithms from "./util/algorithms";
+import isDate from "./isDate";
 
 /**
  * TIN Validation
@@ -43,12 +43,12 @@ function bgBgCheck(tin) {
   } else {
     century_year = `19${century_year}`;
   }
-  if (month < 10) { month = `0${month}`; }
+  if (month < 10)month = `0${month}`;
   const date = `${century_year}/${month}/${tin.slice(4, 6)}`;
-  if (!isDate(date, 'YYYY/MM/DD')) { return false; }
+  if (!isDate(date, "YYYY/MM/DD"))return false;
 
   // split digits into an array for further processing
-  const digits = tin.split('').map(a => parseInt(a, 10));
+  const digits = tin.split("").map((a) => parseInt(a, 10));
 
   // Calculate checksum by multiplying digits with fixed values
   const multip_lookup = [2, 4, 8, 5, 10, 9, 7, 3, 6];
@@ -69,7 +69,7 @@ function bgBgCheck(tin) {
  * -`https://www.mvcr.cz/clanek/rady-a-sluzby-dokumenty-rodne-cislo.aspx`
  */
 function csCzCheck(tin) {
-  tin = tin.replace(/\W/, '');
+  tin = tin.replace(/\W/, "");
 
   // Extract full year from TIN length
   let full_year = parseInt(tin.slice(0, 2), 10);
@@ -80,7 +80,7 @@ function csCzCheck(tin) {
       full_year = `19${full_year}`;
     }
   } else {
-    if (tin.slice(6) === '000') { return false; } // Three-zero serial not assigned before 1954
+    if (tin.slice(6) === "000")return false; // Three-zero serial not assigned before 1954
     if (full_year < 54) {
       full_year = `19${full_year}`;
     } else {
@@ -89,7 +89,7 @@ function csCzCheck(tin) {
   }
   // Add missing zero if needed
   if (full_year.length === 3) {
-    full_year = [full_year.slice(0, 2), '0', full_year.slice(2)].join('');
+    full_year = [full_year.slice(0, 2), "0", full_year.slice(2)].join("");
   }
 
   // Extract month from TIN and normalize
@@ -99,14 +99,14 @@ function csCzCheck(tin) {
   }
   if (month > 20) {
     // Month-plus-twenty was only introduced in 2004
-    if (parseInt(full_year, 10) < 2004) { return false; }
+    if (parseInt(full_year, 10) < 2004)return false;
     month -= 20;
   }
-  if (month < 10) { month = `0${month}`; }
+  if (month < 10)month = `0${month}`;
 
   // Check date validity
   const date = `${full_year}/${month}/${tin.slice(4, 6)}`;
-  if (!isDate(date, 'YYYY/MM/DD')) { return false; }
+  if (!isDate(date, "YYYY/MM/DD"))return false;
 
   // Verify divisibility by 11
   if (tin.length === 10) {
@@ -115,7 +115,7 @@ function csCzCheck(tin) {
       // check (last) digit equals 0 and modulo of first 9 digits equals 10
       const checkdigit = parseInt(tin.slice(0, 9), 10) % 11;
       if (parseInt(full_year, 10) < 1986 && checkdigit === 10) {
-        if (parseInt(tin.slice(9), 10) !== 0) { return false; }
+        if (parseInt(tin.slice(9), 10) !== 0)return false;
       } else {
         return false;
       }
@@ -141,12 +141,12 @@ function deAtCheck(tin) {
  */
 function deDeCheck(tin) {
   // Split digits into an array for further processing
-  const digits = tin.split('').map(a => parseInt(a, 10));
+  const digits = tin.split("").map((a) => parseInt(a, 10));
 
   // Fill array with strings of number positions
   let occurences = [];
   for (let i = 0; i < digits.length - 1; i++) {
-    occurences.push('');
+    occurences.push("");
     for (let j = 0; j < digits.length - 1; j++) {
       if (digits[i] === digits[j]) {
         occurences[i] += j;
@@ -155,12 +155,12 @@ function deDeCheck(tin) {
   }
 
   // Remove digits with one occurence and test for only one duplicate/triplicate
-  occurences = occurences.filter(a => a.length > 1);
-  if (occurences.length !== 2 && occurences.length !== 3) { return false; }
+  occurences = occurences.filter((a) => a.length > 1);
+  if (occurences.length !== 2 && occurences.length !== 3)return false;
 
   // In case of triplicate value only two digits are allowed next to each other
   if (occurences[0].length === 3) {
-    const trip_locations = occurences[0].split('').map(a => parseInt(a, 10));
+    const trip_locations = occurences[0].split("").map((a) => parseInt(a, 10));
     let recurrent = 0; // Amount of neighbour occurences
     for (let i = 0; i < trip_locations.length - 1; i++) {
       if (trip_locations[i] + 1 === trip_locations[i + 1]) {
@@ -181,20 +181,20 @@ function deDeCheck(tin) {
  * and calculates check (last) digit
  */
 function dkDkCheck(tin) {
-  tin = tin.replace(/\W/, '');
+  tin = tin.replace(/\W/, "");
 
   // Extract year, check if valid for given century digit and add century
   let year = parseInt(tin.slice(4, 6), 10);
   const century_digit = tin.slice(6, 7);
   switch (century_digit) {
-    case '0':
-    case '1':
-    case '2':
-    case '3':
+    case "0":
+    case "1":
+    case "2":
+    case "3":
       year = `19${year}`;
       break;
-    case '4':
-    case '9':
+    case "4":
+    case "9":
       if (year < 37) {
         year = `20${year}`;
       } else {
@@ -213,14 +213,14 @@ function dkDkCheck(tin) {
   }
   // Add missing zero if needed
   if (year.length === 3) {
-    year = [year.slice(0, 2), '0', year.slice(2)].join('');
+    year = [year.slice(0, 2), "0", year.slice(2)].join("");
   }
   // Check date validity
   const date = `${year}/${tin.slice(2, 4)}/${tin.slice(0, 2)}`;
-  if (!isDate(date, 'YYYY/MM/DD')) { return false; }
+  if (!isDate(date, "YYYY/MM/DD"))return false;
 
   // Split digits into an array for further processing
-  const digits = tin.split('').map(a => parseInt(a, 10));
+  const digits = tin.split("").map((a) => parseInt(a, 10));
   let checksum = 0;
   let weight = 4;
   // Multiply by weight and add to checksum
@@ -232,7 +232,7 @@ function dkDkCheck(tin) {
     }
   }
   checksum %= 11;
-  if (checksum === 1) { return false; }
+  if (checksum === 1)return false;
   return checksum === 0 ? digits[9] === 0 : digits[9] === 11 - checksum;
 }
 
@@ -243,7 +243,7 @@ function dkDkCheck(tin) {
  */
 function elCyCheck(tin) {
   // split digits into an array for further processing
-  const digits = tin.slice(0, 8).split('').map(a => parseInt(a, 10));
+  const digits = tin.slice(0, 8).split("").map((a) => parseInt(a, 10));
 
   let checksum = 0;
   // add digits in even places
@@ -274,7 +274,7 @@ function elCyCheck(tin) {
  */
 function elGrCheck(tin) {
   // split digits into an array for further processing
-  const digits = tin.split('').map(a => parseInt(a, 10));
+  const digits = tin.split("").map((a) => parseInt(a, 10));
 
   let checksum = 0;
   for (let i = 0; i < 8; i++) {
@@ -295,32 +295,93 @@ function elGrCheck(tin) {
  * Verify TIN validity by calculating check (second to last) character
  */
 function enIeCheck(tin) {
-  let checksum = algorithms.reverseMultiplyAndSum(tin.split('').slice(0, 7).map(a => parseInt(a, 10)), 8);
-  if (tin.length === 9 && tin[8] !== 'W') {
+  let checksum = algorithms.reverseMultiplyAndSum(
+    tin.split("").slice(0, 7).map((a) => parseInt(a, 10)),
+    8,
+  );
+  if (tin.length === 9 && tin[8] !== "W") {
     checksum += (tin[8].charCodeAt(0) - 64) * 9;
   }
 
   checksum %= 23;
   if (checksum === 0) {
-    return tin[7].toUpperCase() === 'W';
+    return tin[7].toUpperCase() === "W";
   }
   return tin[7].toUpperCase() === String.fromCharCode(64 + checksum);
 }
 
 // Valid US IRS campus prefixes
 const enUsCampusPrefix = {
-  andover: ['10', '12'],
-  atlanta: ['60', '67'],
-  austin: ['50', '53'],
-  brookhaven: ['01', '02', '03', '04', '05', '06', '11', '13', '14', '16', '21', '22', '23', '25', '34', '51', '52', '54', '55', '56', '57', '58', '59', '65'],
-  cincinnati: ['30', '32', '35', '36', '37', '38', '61'],
-  fresno: ['15', '24'],
-  internet: ['20', '26', '27', '45', '46', '47'],
-  kansas: ['40', '44'],
-  memphis: ['94', '95'],
-  ogden: ['80', '90'],
-  philadelphia: ['33', '39', '41', '42', '43', '46', '48', '62', '63', '64', '66', '68', '71', '72', '73', '74', '75', '76', '77', '81', '82', '83', '84', '85', '86', '87', '88', '91', '92', '93', '98', '99'],
-  sba: ['31'],
+  andover: ["10", "12"],
+  atlanta: ["60", "67"],
+  austin: ["50", "53"],
+  brookhaven: [
+    "01",
+    "02",
+    "03",
+    "04",
+    "05",
+    "06",
+    "11",
+    "13",
+    "14",
+    "16",
+    "21",
+    "22",
+    "23",
+    "25",
+    "34",
+    "51",
+    "52",
+    "54",
+    "55",
+    "56",
+    "57",
+    "58",
+    "59",
+    "65",
+  ],
+  cincinnati: ["30", "32", "35", "36", "37", "38", "61"],
+  fresno: ["15", "24"],
+  internet: ["20", "26", "27", "45", "46", "47"],
+  kansas: ["40", "44"],
+  memphis: ["94", "95"],
+  ogden: ["80", "90"],
+  philadelphia: [
+    "33",
+    "39",
+    "41",
+    "42",
+    "43",
+    "46",
+    "48",
+    "62",
+    "63",
+    "64",
+    "66",
+    "68",
+    "71",
+    "72",
+    "73",
+    "74",
+    "75",
+    "76",
+    "77",
+    "81",
+    "82",
+    "83",
+    "84",
+    "85",
+    "86",
+    "87",
+    "88",
+    "91",
+    "92",
+    "93",
+    "98",
+    "99",
+  ],
+  sba: ["31"],
 };
 
 // Return an array of all US IRS campus prefixes
@@ -354,22 +415,22 @@ function enUsCheck(tin) {
  */
 function esEsCheck(tin) {
   // Split characters into an array for further processing
-  let chars = tin.toUpperCase().split('');
+  let chars = tin.toUpperCase().split("");
 
   // Replace initial letter if needed
   if (isNaN(parseInt(chars[0], 10)) && chars.length > 1) {
     let lead_replace = 0;
     switch (chars[0]) {
-      case 'Y':
+      case "Y":
         lead_replace = 1;
         break;
-      case 'Z':
+      case "Z":
         lead_replace = 2;
         break;
       default:
     }
     chars.splice(0, 1, lead_replace);
-  // Fill with zeros if smaller than proper
+    // Fill with zeros if smaller than proper
   } else {
     while (chars.length < 9) {
       chars.unshift(0);
@@ -377,8 +438,32 @@ function esEsCheck(tin) {
   }
 
   // Calculate checksum and check according to lookup
-  const lookup = ['T', 'R', 'W', 'A', 'G', 'M', 'Y', 'F', 'P', 'D', 'X', 'B', 'N', 'J', 'Z', 'S', 'Q', 'V', 'H', 'L', 'C', 'K', 'E'];
-  chars = chars.join('');
+  const lookup = [
+    "T",
+    "R",
+    "W",
+    "A",
+    "G",
+    "M",
+    "Y",
+    "F",
+    "P",
+    "D",
+    "X",
+    "B",
+    "N",
+    "J",
+    "Z",
+    "S",
+    "Q",
+    "V",
+    "H",
+    "L",
+    "C",
+    "K",
+    "E",
+  ];
+  chars = chars.join("");
   let checksum = (parseInt(chars.slice(0, 8), 10) % 23);
   return chars[8] === lookup[checksum];
 }
@@ -395,12 +480,12 @@ function etEeCheck(tin) {
   let full_year = tin.slice(1, 3);
   const century_digit = tin.slice(0, 1);
   switch (century_digit) {
-    case '1':
-    case '2':
+    case "1":
+    case "2":
       full_year = `18${full_year}`;
       break;
-    case '3':
-    case '4':
+    case "3":
+    case "4":
       full_year = `19${full_year}`;
       break;
     default:
@@ -409,10 +494,10 @@ function etEeCheck(tin) {
   }
   // Check date validity
   const date = `${full_year}/${tin.slice(3, 5)}/${tin.slice(5, 7)}`;
-  if (!isDate(date, 'YYYY/MM/DD')) { return false; }
+  if (!isDate(date, "YYYY/MM/DD"))return false;
 
   // Split digits into an array for further processing
-  const digits = tin.split('').map(a => parseInt(a, 10));
+  const digits = tin.split("").map((a) => parseInt(a, 10));
   let checksum = 0;
   let weight = 1;
   // Multiply by weight and add to checksum
@@ -434,7 +519,7 @@ function etEeCheck(tin) {
         weight = 1;
       }
     }
-    if (checksum % 11 === 10) { return digits[10] === 0; }
+    if (checksum % 11 === 10)return digits[10] === 0;
   }
 
   return checksum % 11 === digits[10];
@@ -451,10 +536,10 @@ function fiFiCheck(tin) {
   let full_year = tin.slice(4, 6);
   const century_symbol = tin.slice(6, 7);
   switch (century_symbol) {
-    case '+':
+    case "+":
       full_year = `18${full_year}`;
       break;
-    case '-':
+    case "-":
       full_year = `19${full_year}`;
       break;
     default:
@@ -463,14 +548,36 @@ function fiFiCheck(tin) {
   }
   // Check date validity
   const date = `${full_year}/${tin.slice(2, 4)}/${tin.slice(0, 2)}`;
-  if (!isDate(date, 'YYYY/MM/DD')) { return false; }
+  if (!isDate(date, "YYYY/MM/DD"))return false;
 
   // Calculate check character
   let checksum = parseInt((tin.slice(0, 6) + tin.slice(7, 10)), 10) % 31;
-  if (checksum < 10) { return checksum === parseInt(tin.slice(10), 10); }
+  if (checksum < 10)return checksum === parseInt(tin.slice(10), 10);
 
   checksum -= 10;
-  const letters_lookup = ['A', 'B', 'C', 'D', 'E', 'F', 'H', 'J', 'K', 'L', 'M', 'N', 'P', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y'];
+  const letters_lookup = [
+    "A",
+    "B",
+    "C",
+    "D",
+    "E",
+    "F",
+    "H",
+    "J",
+    "K",
+    "L",
+    "M",
+    "N",
+    "P",
+    "R",
+    "S",
+    "T",
+    "U",
+    "V",
+    "W",
+    "X",
+    "Y",
+  ];
   return letters_lookup[checksum] === tin.slice(10);
 }
 
@@ -481,10 +588,10 @@ function fiFiCheck(tin) {
  */
 function frBeCheck(tin) {
   // Zero month/day value is acceptable
-  if (tin.slice(2, 4) !== '00' || tin.slice(4, 6) !== '00') {
+  if (tin.slice(2, 4) !== "00" || tin.slice(4, 6) !== "00") {
     // Extract date from first six digits of TIN
     const date = `${tin.slice(0, 2)}/${tin.slice(2, 4)}/${tin.slice(4, 6)}`;
-    if (!isDate(date, 'YY/MM/DD')) { return false; }
+    if (!isDate(date, "YY/MM/DD"))return false;
   }
 
   let checksum = 97 - (parseInt(tin.slice(0, 9), 10) % 97);
@@ -504,7 +611,7 @@ function frBeCheck(tin) {
  * Verify TIN validity by calculating check (last three) digits
  */
 function frFrCheck(tin) {
-  tin = tin.replace(/\s/g, '');
+  tin = tin.replace(/\s/g, "");
   const checksum = parseInt(tin.slice(0, 10), 10) % 511;
   const checkdigits = parseInt(tin.slice(10, 13), 10);
   return checksum === checkdigits;
@@ -518,10 +625,10 @@ function frFrCheck(tin) {
 function frLuCheck(tin) {
   // Extract date and check validity
   const date = `${tin.slice(0, 4)}/${tin.slice(4, 6)}/${tin.slice(6, 8)}`;
-  if (!isDate(date, 'YYYY/MM/DD')) { return false; }
+  if (!isDate(date, "YYYY/MM/DD"))return false;
 
   // Run Luhn check
-  if (!algorithms.luhnCheck(tin.slice(0, 12))) { return false; }
+  if (!algorithms.luhnCheck(tin.slice(0, 12)))return false;
   // Remove Luhn check digit and run Verhoeff check
   return algorithms.verhoeffCheck(`${tin.slice(0, 11)}${tin[12]}`);
 }
@@ -542,7 +649,7 @@ function hrHrCheck(tin) {
  */
 function huHuCheck(tin) {
   // split digits into an array for further processing
-  const digits = tin.split('').map(a => parseInt(a, 10));
+  const digits = tin.split("").map((a) => parseInt(a, 10));
 
   let checksum = 8;
   for (let i = 1; i < 9; i++) {
@@ -577,14 +684,14 @@ function itItNameCheck(name) {
   for (let i = 0; i < 3; i++) {
     if (!vowelflag && /[AEIOU]/.test(name[i])) {
       vowelflag = true;
-    } else if (!xflag && vowelflag && (name[i] === 'X')) {
+    } else if (!xflag && vowelflag && (name[i] === "X")) {
       xflag = true;
     } else if (i > 0) {
       if (vowelflag && !xflag) {
-        if (!/[AEIOU]/.test(name[i])) { return false; }
+        if (!/[AEIOU]/.test(name[i]))return false;
       }
       if (xflag) {
-        if (!/X/.test(name[i])) { return false; }
+        if (!/X/.test(name[i]))return false;
       }
     }
   }
@@ -601,25 +708,25 @@ function itItNameCheck(name) {
  */
 function itItCheck(tin) {
   // Capitalize and split characters into an array for further processing
-  const chars = tin.toUpperCase().split('');
+  const chars = tin.toUpperCase().split("");
 
   // Check first and last name validity calling itItNameCheck()
-  if (!itItNameCheck(chars.slice(0, 3))) { return false; }
-  if (!itItNameCheck(chars.slice(3, 6))) { return false; }
+  if (!itItNameCheck(chars.slice(0, 3)))return false;
+  if (!itItNameCheck(chars.slice(3, 6)))return false;
 
   // Convert letters in number spaces back to numbers if any
   const number_locations = [6, 7, 9, 10, 12, 13, 14];
   const number_replace = {
-    L: '0',
-    M: '1',
-    N: '2',
-    P: '3',
-    Q: '4',
-    R: '5',
-    S: '6',
-    T: '7',
-    U: '8',
-    V: '9',
+    L: "0",
+    M: "1",
+    N: "2",
+    P: "3",
+    Q: "4",
+    R: "5",
+    S: "6",
+    T: "7",
+    U: "8",
+    V: "9",
   };
   for (const i of number_locations) {
     if (chars[i] in number_replace) {
@@ -629,27 +736,27 @@ function itItCheck(tin) {
 
   // Extract month and day, and check date validity
   const month_replace = {
-    A: '01',
-    B: '02',
-    C: '03',
-    D: '04',
-    E: '05',
-    H: '06',
-    L: '07',
-    M: '08',
-    P: '09',
-    R: '10',
-    S: '11',
-    T: '12',
+    A: "01",
+    B: "02",
+    C: "03",
+    D: "04",
+    E: "05",
+    H: "06",
+    L: "07",
+    M: "08",
+    P: "09",
+    R: "10",
+    S: "11",
+    T: "12",
   };
   let month = month_replace[chars[8]];
 
   let day = parseInt(chars[9] + chars[10], 10);
-  if (day > 40) { day -= 40; }
-  if (day < 10) { day = `0${day}`; }
+  if (day > 40)day -= 40;
+  if (day < 10)day = `0${day}`;
 
   const date = `${chars[6]}${chars[7]}/${month}/${day}`;
-  if (!isDate(date, 'YY/MM/DD')) { return false; }
+  if (!isDate(date, "YY/MM/DD"))return false;
 
   // Calculate check character by adding up even and odd characters as numbers
   let checksum = 0;
@@ -705,7 +812,7 @@ function itItCheck(tin) {
     checksum += char_to_int;
   }
 
-  if (String.fromCharCode(65 + (checksum % 26)) !== chars[15]) { return false; }
+  if (String.fromCharCode(65 + (checksum % 26)) !== chars[15])return false;
   return true;
 }
 
@@ -718,18 +825,18 @@ function itItCheck(tin) {
  * `https://boot.ritakafija.lv/forums/index.php?/topic/88314-personas-koda-algoritms-%C4%8Deksumma/`
  */
 function lvLvCheck(tin) {
-  tin = tin.replace(/\W/, '');
+  tin = tin.replace(/\W/, "");
   // Extract date from TIN
   const day = tin.slice(0, 2);
-  if (day !== '32') { // No date/checksum check if new format
+  if (day !== "32") { // No date/checksum check if new format
     const month = tin.slice(2, 4);
-    if (month !== '00') { // No date check if unknown month
+    if (month !== "00") { // No date check if unknown month
       let full_year = tin.slice(4, 6);
       switch (tin[6]) {
-        case '0':
+        case "0":
           full_year = `18${full_year}`;
           break;
-        case '1':
+        case "1":
           full_year = `19${full_year}`;
           break;
         default:
@@ -738,7 +845,7 @@ function lvLvCheck(tin) {
       }
       // Check date validity
       const date = `${full_year}/${tin.slice(2, 4)}/${day}`;
-      if (!isDate(date, 'YYYY/MM/DD')) { return false; }
+      if (!isDate(date, "YYYY/MM/DD"))return false;
     }
 
     // Calculate check digit
@@ -759,22 +866,22 @@ function lvLvCheck(tin) {
  */
 function mtMtCheck(tin) {
   if (tin.length !== 9) { // No tests for UTR
-    let chars = tin.toUpperCase().split('');
+    let chars = tin.toUpperCase().split("");
     // Fill with zeros if smaller than proper
     while (chars.length < 8) {
       chars.unshift(0);
     }
     // Validate format according to last character
     switch (tin[7]) {
-      case 'A':
-      case 'P':
-        if (parseInt(chars[6], 10) === 0) { return false; }
+      case "A":
+      case "P":
+        if (parseInt(chars[6], 10) === 0)return false;
         break;
       default: {
-        const first_part = parseInt(chars.join('').slice(0, 5), 10);
-        if (first_part > 32000) { return false; }
-        const second_part = parseInt(chars.join('').slice(5, 7), 10);
-        if (first_part === second_part) { return false; }
+        const first_part = parseInt(chars.join("").slice(0, 5), 10);
+        if (first_part > 32000)return false;
+        const second_part = parseInt(chars.join("").slice(5, 7), 10);
+        if (first_part === second_part)return false;
       }
     }
   }
@@ -788,7 +895,10 @@ function mtMtCheck(tin) {
  * Verify TIN validity by calculating check (last) digit (variant of MOD 11)
  */
 function nlNlCheck(tin) {
-  return algorithms.reverseMultiplyAndSum(tin.split('').slice(0, 8).map(a => parseInt(a, 10)), 9) % 11 === parseInt(tin[8], 10);
+  return algorithms.reverseMultiplyAndSum(
+        tin.split("").slice(0, 8).map((a) => parseInt(a, 10)),
+        9,
+      ) % 11 === parseInt(tin[8], 10);
 }
 
 /*
@@ -807,7 +917,7 @@ function plPlCheck(tin) {
       checksum += parseInt(tin[i], 10) * lookup[i];
     }
     checksum %= 11;
-    if (checksum === 10) { return false; }
+    if (checksum === 10)return false;
     return (checksum === parseInt(tin[9], 10));
   }
 
@@ -831,10 +941,10 @@ function plPlCheck(tin) {
     full_year = `19${full_year}`;
   }
   // Add leading zero to month if needed
-  if (month < 10) { month = `0${month}`; }
+  if (month < 10)month = `0${month}`;
   // Check date validity
   const date = `${full_year}/${month}/${tin.slice(4, 6)}`;
-  if (!isDate(date, 'YYYY/MM/DD')) { return false; }
+  if (!isDate(date, "YYYY/MM/DD"))return false;
 
   // Calculate last digit by mulitplying with odd one-digit numbers except 5
   let checksum = 0;
@@ -860,35 +970,42 @@ function plPlCheck(tin) {
 */
 
 function ptBrCheck(tin) {
-  tin = tin.replace(/[^\d]+/g, '');
-  if (tin === '') return false;
+  tin = tin.replace(/[^\d]+/g, "");
+  if (tin === "") return false;
 
   if (tin.length === 11) {
     let sum;
     let ramainder;
     sum = 0;
-    tin = tin.replace(/[^\d]+/g, '');
+    tin = tin.replace(/[^\d]+/g, "");
 
-    if ( // Reject known invalid CPFs
-      tin === '11111111111' ||
-      tin === '22222222222' ||
-      tin === '33333333333' ||
-      tin === '44444444444' ||
-      tin === '55555555555' ||
-      tin === '66666666666' ||
-      tin === '77777777777' ||
-      tin === '88888888888' ||
-      tin === '99999999999' ||
-      tin === '00000000000'
-    ) return false;
+    if (
+      // Reject known invalid CPFs
+      tin === "11111111111" ||
+      tin === "22222222222" ||
+      tin === "33333333333" ||
+      tin === "44444444444" ||
+      tin === "55555555555" ||
+      tin === "66666666666" ||
+      tin === "77777777777" ||
+      tin === "88888888888" ||
+      tin === "99999999999" ||
+      tin === "00000000000"
+    ) {
+      return false;
+    }
 
-    for (let i = 1; i <= 9; i++) sum += parseInt(tin.substring(i - 1, i), 10) * (11 - i);
+    for (let i = 1; i <= 9; i++) {
+      sum += parseInt(tin.substring(i - 1, i), 10) * (11 - i);
+    }
     ramainder = (sum * 10) % 11;
     if ((ramainder === 10) || (ramainder === 11)) ramainder = 0;
     if (ramainder !== parseInt(tin.substring(9, 10), 10)) return false;
     sum = 0;
 
-    for (let i = 1; i <= 10; i++) sum += parseInt(tin.substring(i - 1, i), 10) * (12 - i);
+    for (let i = 1; i <= 10; i++) {
+      sum += parseInt(tin.substring(i - 1, i), 10) * (12 - i);
+    }
     ramainder = (sum * 10) % 11;
     if ((ramainder === 10) || (ramainder === 11)) ramainder = 0;
     if (ramainder !== parseInt(tin.substring(10, 11), 10)) return false;
@@ -896,19 +1013,23 @@ function ptBrCheck(tin) {
     return true;
   }
 
-  if (tin.length !== 14) { return false; }
+  if (tin.length !== 14)return false;
 
-  if ( // Reject know invalid CNPJs
-    tin === '00000000000000' ||
-    tin === '11111111111111' ||
-    tin === '22222222222222' ||
-    tin === '33333333333333' ||
-    tin === '44444444444444' ||
-    tin === '55555555555555' ||
-    tin === '66666666666666' ||
-    tin === '77777777777777' ||
-    tin === '88888888888888' ||
-    tin === '99999999999999') { return false; }
+  if (
+    // Reject know invalid CNPJs
+    tin === "00000000000000" ||
+    tin === "11111111111111" ||
+    tin === "22222222222222" ||
+    tin === "33333333333333" ||
+    tin === "44444444444444" ||
+    tin === "55555555555555" ||
+    tin === "66666666666666" ||
+    tin === "77777777777777" ||
+    tin === "88888888888888" ||
+    tin === "99999999999999"
+  ) {
+    return false;
+  }
 
   let length = tin.length - 2;
   let identifiers = tin.substring(0, length);
@@ -919,10 +1040,10 @@ function ptBrCheck(tin) {
   for (let i = length; i >= 1; i--) {
     sum += identifiers.charAt(length - i) * pos;
     pos -= 1;
-    if (pos < 2) { pos = 9; }
+    if (pos < 2)pos = 9;
   }
   let result = sum % 11 < 2 ? 0 : 11 - (sum % 11);
-  if (result !== parseInt(verificators.charAt(0), 10)) { return false; }
+  if (result !== parseInt(verificators.charAt(0), 10))return false;
 
   length += 1;
   identifiers = tin.substring(0, length);
@@ -931,10 +1052,10 @@ function ptBrCheck(tin) {
   for (let i = length; i >= 1; i--) {
     sum += identifiers.charAt(length - i) * pos;
     pos -= 1;
-    if (pos < 2) { pos = 9; }
+    if (pos < 2)pos = 9;
   }
   result = sum % 11 < 2 ? 0 : 11 - (sum % 11);
-  if (result !== parseInt(verificators.charAt(1), 10)) { return false; }
+  if (result !== parseInt(verificators.charAt(1), 10))return false;
 
   return true;
 }
@@ -945,8 +1066,12 @@ function ptBrCheck(tin) {
  * Verify TIN validity by calculating check (last) digit (variant of MOD 11)
  */
 function ptPtCheck(tin) {
-  let checksum = 11 - (algorithms.reverseMultiplyAndSum(tin.split('').slice(0, 8).map(a => parseInt(a, 10)), 9) % 11);
-  if (checksum > 9) { return parseInt(tin[8], 10) === 0; }
+  let checksum = 11 -
+    (algorithms.reverseMultiplyAndSum(
+      tin.split("").slice(0, 8).map((a) => parseInt(a, 10)),
+      9,
+    ) % 11);
+  if (checksum > 9)return parseInt(tin[8], 10) === 0;
   return checksum === parseInt(tin[8], 10);
 }
 
@@ -959,20 +1084,20 @@ function ptPtCheck(tin) {
  * `https://en.wikipedia.org/wiki/National_identification_number#Romania`
  */
 function roRoCheck(tin) {
-  if (tin.slice(0, 4) !== '9000') { // No test found for this format
+  if (tin.slice(0, 4) !== "9000") { // No test found for this format
     // Extract full year using century digit if possible
     let full_year = tin.slice(1, 3);
     switch (tin[0]) {
-      case '1':
-      case '2':
+      case "1":
+      case "2":
         full_year = `19${full_year}`;
         break;
-      case '3':
-      case '4':
+      case "3":
+      case "4":
         full_year = `18${full_year}`;
         break;
-      case '5':
-      case '6':
+      case "5":
+      case "6":
         full_year = `20${full_year}`;
         break;
       default:
@@ -981,17 +1106,17 @@ function roRoCheck(tin) {
     // Check date validity
     const date = `${full_year}/${tin.slice(3, 5)}/${tin.slice(5, 7)}`;
     if (date.length === 8) {
-      if (!isDate(date, 'YY/MM/DD')) { return false; }
-    } else if (!isDate(date, 'YYYY/MM/DD')) { return false; }
+      if (!isDate(date, "YY/MM/DD"))return false;
+    } else if (!isDate(date, "YYYY/MM/DD"))return false;
 
     // Calculate check digit
-    const digits = tin.split('').map(a => parseInt(a, 10));
+    const digits = tin.split("").map((a) => parseInt(a, 10));
     const multipliers = [2, 7, 9, 1, 4, 6, 3, 5, 8, 2, 7, 9];
     let checksum = 0;
     for (let i = 0; i < multipliers.length; i++) {
       checksum += digits[i] * multipliers[i];
     }
-    if (checksum % 11 === 10) { return digits[12] === 1; }
+    if (checksum % 11 === 10)return digits[12] === 1;
     return digits[12] === checksum % 11;
   }
   return true;
@@ -1006,12 +1131,12 @@ function roRoCheck(tin) {
  */
 function skSkCheck(tin) {
   if (tin.length === 9) {
-    tin = tin.replace(/\W/, '');
-    if (tin.slice(6) === '000') { return false; } // Three-zero serial not assigned before 1954
+    tin = tin.replace(/\W/, "");
+    if (tin.slice(6) === "000")return false; // Three-zero serial not assigned before 1954
 
     // Extract full year from TIN length
     let full_year = parseInt(tin.slice(0, 2), 10);
-    if (full_year > 53) { return false; }
+    if (full_year > 53)return false;
     if (full_year < 10) {
       full_year = `190${full_year}`;
     } else {
@@ -1023,11 +1148,11 @@ function skSkCheck(tin) {
     if (month > 50) {
       month -= 50;
     }
-    if (month < 10) { month = `0${month}`; }
+    if (month < 10)month = `0${month}`;
 
     // Check date validity
     const date = `${full_year}/${month}/${tin.slice(4, 6)}`;
-    if (!isDate(date, 'YYYY/MM/DD')) { return false; }
+    if (!isDate(date, "YYYY/MM/DD"))return false;
   }
   return true;
 }
@@ -1038,8 +1163,12 @@ function skSkCheck(tin) {
  * Verify TIN validity by calculating check (last) digit (variant of MOD 11)
  */
 function slSiCheck(tin) {
-  let checksum = 11 - (algorithms.reverseMultiplyAndSum(tin.split('').slice(0, 7).map(a => parseInt(a, 10)), 8) % 11);
-  if (checksum === 10) { return parseInt(tin[7], 10) === 0; }
+  let checksum = 11 -
+    (algorithms.reverseMultiplyAndSum(
+      tin.split("").slice(0, 7).map((a) => parseInt(a, 10)),
+      8,
+    ) % 11);
+  if (checksum === 10)return parseInt(tin[7], 10) === 0;
   return checksum === parseInt(tin[7], 10);
 }
 
@@ -1056,7 +1185,7 @@ function svSeCheck(tin) {
   }
 
   // Extract date of birth
-  let full_year = '';
+  let full_year = "";
   const month = tin_copy.slice(2, 4);
   let day = parseInt(tin_copy.slice(4, 6), 10);
   if (tin.length > 11) {
@@ -1069,7 +1198,7 @@ function svSeCheck(tin) {
       let current_year = new Date().getFullYear().toString();
       const current_century = parseInt(current_year.slice(0, 2), 10);
       current_year = parseInt(current_year, 10);
-      if (tin[6] === '-') {
+      if (tin[6] === "-") {
         if (parseInt(`${current_century}${full_year}`, 10) > current_year) {
           full_year = `${current_century - 1}${full_year}`;
         } else {
@@ -1077,20 +1206,20 @@ function svSeCheck(tin) {
         }
       } else {
         full_year = `${current_century - 1}${full_year}`;
-        if (current_year - parseInt(full_year, 10) < 100) { return false; }
+        if (current_year - parseInt(full_year, 10) < 100)return false;
       }
     }
   }
 
   // Normalize day and check date validity
-  if (day > 60) { day -= 60; }
-  if (day < 10) { day = `0${day}`; }
+  if (day > 60)day -= 60;
+  if (day < 10)day = `0${day}`;
   const date = `${full_year}/${month}/${day}`;
   if (date.length === 8) {
-    if (!isDate(date, 'YY/MM/DD')) { return false; }
-  } else if (!isDate(date, 'YYYY/MM/DD')) { return false; }
+    if (!isDate(date, "YY/MM/DD"))return false;
+  } else if (!isDate(date, "YYYY/MM/DD"))return false;
 
-  return algorithms.luhnCheck(tin.replace(/\W/, ''));
+  return algorithms.luhnCheck(tin.replace(/\W/, ""));
 }
 
 // Locale lookup objects
@@ -1102,90 +1231,88 @@ function svSeCheck(tin) {
  * uppercase and lowercase letters are acceptable.
  */
 const taxIdFormat = {
-
-  'bg-BG': /^\d{10}$/,
-  'cs-CZ': /^\d{6}\/{0,1}\d{3,4}$/,
-  'de-AT': /^\d{9}$/,
-  'de-DE': /^[1-9]\d{10}$/,
-  'dk-DK': /^\d{6}-{0,1}\d{4}$/,
-  'el-CY': /^[09]\d{7}[A-Z]$/,
-  'el-GR': /^([0-4]|[7-9])\d{8}$/,
-  'en-GB': /^\d{10}$|^(?!GB|NK|TN|ZZ)(?![DFIQUV])[A-Z](?![DFIQUVO])[A-Z]\d{6}[ABCD ]$/i,
-  'en-IE': /^\d{7}[A-W][A-IW]{0,1}$/i,
-  'en-US': /^\d{2}[- ]{0,1}\d{7}$/,
-  'es-ES': /^(\d{0,8}|[XYZKLM]\d{7})[A-HJ-NP-TV-Z]$/i,
-  'et-EE': /^[1-6]\d{6}(00[1-9]|0[1-9][0-9]|[1-6][0-9]{2}|70[0-9]|710)\d$/,
-  'fi-FI': /^\d{6}[-+A]\d{3}[0-9A-FHJ-NPR-Y]$/i,
-  'fr-BE': /^\d{11}$/,
-  'fr-FR': /^[0-3]\d{12}$|^[0-3]\d\s\d{2}(\s\d{3}){3}$/, // Conforms both to official spec and provided example
-  'fr-LU': /^\d{13}$/,
-  'hr-HR': /^\d{11}$/,
-  'hu-HU': /^8\d{9}$/,
-  'it-IT': /^[A-Z]{6}[L-NP-V0-9]{2}[A-EHLMPRST][L-NP-V0-9]{2}[A-ILMZ][L-NP-V0-9]{3}[A-Z]$/i,
-  'lv-LV': /^\d{6}-{0,1}\d{5}$/, // Conforms both to DG TAXUD spec and original research
-  'mt-MT': /^\d{3,7}[APMGLHBZ]$|^([1-8])\1\d{7}$/i,
-  'nl-NL': /^\d{9}$/,
-  'pl-PL': /^\d{10,11}$/,
-  'pt-BR': /^\d{11,14}$/,
-  'pt-PT': /^\d{9}$/,
-  'ro-RO': /^\d{13}$/,
-  'sk-SK': /^\d{6}\/{0,1}\d{3,4}$/,
-  'sl-SI': /^[1-9]\d{7}$/,
-  'sv-SE': /^(\d{6}[-+]{0,1}\d{4}|(18|19|20)\d{6}[-+]{0,1}\d{4})$/,
-
+  "bg-BG": /^\d{10}$/,
+  "cs-CZ": /^\d{6}\/{0,1}\d{3,4}$/,
+  "de-AT": /^\d{9}$/,
+  "de-DE": /^[1-9]\d{10}$/,
+  "dk-DK": /^\d{6}-{0,1}\d{4}$/,
+  "el-CY": /^[09]\d{7}[A-Z]$/,
+  "el-GR": /^([0-4]|[7-9])\d{8}$/,
+  "en-GB":
+    /^\d{10}$|^(?!GB|NK|TN|ZZ)(?![DFIQUV])[A-Z](?![DFIQUVO])[A-Z]\d{6}[ABCD ]$/i,
+  "en-IE": /^\d{7}[A-W][A-IW]{0,1}$/i,
+  "en-US": /^\d{2}[- ]{0,1}\d{7}$/,
+  "es-ES": /^(\d{0,8}|[XYZKLM]\d{7})[A-HJ-NP-TV-Z]$/i,
+  "et-EE": /^[1-6]\d{6}(00[1-9]|0[1-9][0-9]|[1-6][0-9]{2}|70[0-9]|710)\d$/,
+  "fi-FI": /^\d{6}[-+A]\d{3}[0-9A-FHJ-NPR-Y]$/i,
+  "fr-BE": /^\d{11}$/,
+  "fr-FR": /^[0-3]\d{12}$|^[0-3]\d\s\d{2}(\s\d{3}){3}$/, // Conforms both to official spec and provided example
+  "fr-LU": /^\d{13}$/,
+  "hr-HR": /^\d{11}$/,
+  "hu-HU": /^8\d{9}$/,
+  "it-IT":
+    /^[A-Z]{6}[L-NP-V0-9]{2}[A-EHLMPRST][L-NP-V0-9]{2}[A-ILMZ][L-NP-V0-9]{3}[A-Z]$/i,
+  "lv-LV": /^\d{6}-{0,1}\d{5}$/, // Conforms both to DG TAXUD spec and original research
+  "mt-MT": /^\d{3,7}[APMGLHBZ]$|^([1-8])\1\d{7}$/i,
+  "nl-NL": /^\d{9}$/,
+  "pl-PL": /^\d{10,11}$/,
+  "pt-BR": /^\d{11,14}$/,
+  "pt-PT": /^\d{9}$/,
+  "ro-RO": /^\d{13}$/,
+  "sk-SK": /^\d{6}\/{0,1}\d{3,4}$/,
+  "sl-SI": /^[1-9]\d{7}$/,
+  "sv-SE": /^(\d{6}[-+]{0,1}\d{4}|(18|19|20)\d{6}[-+]{0,1}\d{4})$/,
 };
 // taxIdFormat locale aliases
-taxIdFormat['lb-LU'] = taxIdFormat['fr-LU'];
-taxIdFormat['lt-LT'] = taxIdFormat['et-EE'];
-taxIdFormat['nl-BE'] = taxIdFormat['fr-BE'];
+taxIdFormat["lb-LU"] = taxIdFormat["fr-LU"];
+taxIdFormat["lt-LT"] = taxIdFormat["et-EE"];
+taxIdFormat["nl-BE"] = taxIdFormat["fr-BE"];
 
 // Algorithmic tax id check functions for various locales
 const taxIdCheck = {
-
-  'bg-BG': bgBgCheck,
-  'cs-CZ': csCzCheck,
-  'de-AT': deAtCheck,
-  'de-DE': deDeCheck,
-  'dk-DK': dkDkCheck,
-  'el-CY': elCyCheck,
-  'el-GR': elGrCheck,
-  'en-IE': enIeCheck,
-  'en-US': enUsCheck,
-  'es-ES': esEsCheck,
-  'et-EE': etEeCheck,
-  'fi-FI': fiFiCheck,
-  'fr-BE': frBeCheck,
-  'fr-FR': frFrCheck,
-  'fr-LU': frLuCheck,
-  'hr-HR': hrHrCheck,
-  'hu-HU': huHuCheck,
-  'it-IT': itItCheck,
-  'lv-LV': lvLvCheck,
-  'mt-MT': mtMtCheck,
-  'nl-NL': nlNlCheck,
-  'pl-PL': plPlCheck,
-  'pt-BR': ptBrCheck,
-  'pt-PT': ptPtCheck,
-  'ro-RO': roRoCheck,
-  'sk-SK': skSkCheck,
-  'sl-SI': slSiCheck,
-  'sv-SE': svSeCheck,
-
+  "bg-BG": bgBgCheck,
+  "cs-CZ": csCzCheck,
+  "de-AT": deAtCheck,
+  "de-DE": deDeCheck,
+  "dk-DK": dkDkCheck,
+  "el-CY": elCyCheck,
+  "el-GR": elGrCheck,
+  "en-IE": enIeCheck,
+  "en-US": enUsCheck,
+  "es-ES": esEsCheck,
+  "et-EE": etEeCheck,
+  "fi-FI": fiFiCheck,
+  "fr-BE": frBeCheck,
+  "fr-FR": frFrCheck,
+  "fr-LU": frLuCheck,
+  "hr-HR": hrHrCheck,
+  "hu-HU": huHuCheck,
+  "it-IT": itItCheck,
+  "lv-LV": lvLvCheck,
+  "mt-MT": mtMtCheck,
+  "nl-NL": nlNlCheck,
+  "pl-PL": plPlCheck,
+  "pt-BR": ptBrCheck,
+  "pt-PT": ptPtCheck,
+  "ro-RO": roRoCheck,
+  "sk-SK": skSkCheck,
+  "sl-SI": slSiCheck,
+  "sv-SE": svSeCheck,
 };
 // taxIdCheck locale aliases
-taxIdCheck['lb-LU'] = taxIdCheck['fr-LU'];
-taxIdCheck['lt-LT'] = taxIdCheck['et-EE'];
-taxIdCheck['nl-BE'] = taxIdCheck['fr-BE'];
+taxIdCheck["lb-LU"] = taxIdCheck["fr-LU"];
+taxIdCheck["lt-LT"] = taxIdCheck["et-EE"];
+taxIdCheck["nl-BE"] = taxIdCheck["fr-BE"];
 
 // Regexes for locales where characters should be omitted before checking format
 const allsymbols = /[-\\\/!@#$%\^&\*\(\)\+\=\[\]]+/g;
 const sanitizeRegexes = {
-  'de-AT': allsymbols,
-  'de-DE': /[\/\\]/g,
-  'fr-BE': allsymbols,
+  "de-AT": allsymbols,
+  "de-DE": /[\/\\]/g,
+  "fr-BE": allsymbols,
 };
 // sanitizeRegexes locale aliases
-sanitizeRegexes['nl-BE'] = sanitizeRegexes['fr-BE'];
+sanitizeRegexes["nl-BE"] = sanitizeRegexes["fr-BE"];
 
 /*
  * Validator function
@@ -1193,14 +1320,14 @@ sanitizeRegexes['nl-BE'] = sanitizeRegexes['fr-BE'];
  * for the specified locale.
  * Throw an error exception if the locale is not supported.
  */
-export default function isTaxID(str, locale = 'en-US') {
+export default function isTaxID(str, locale = "en-US") {
   assertString(str);
   // Copy TIN to avoid replacement if sanitized
   let strcopy = str.slice(0);
 
   if (locale in taxIdFormat) {
     if (locale in sanitizeRegexes) {
-      strcopy = strcopy.replace(sanitizeRegexes[locale], '');
+      strcopy = strcopy.replace(sanitizeRegexes[locale], "");
     }
     if (!taxIdFormat[locale].test(strcopy)) {
       return false;

@@ -1,5 +1,5 @@
-import assertString from './util/assertString.ts';
-import toDate from './toDate.ts';
+import assertString from "./util/assertString.ts";
+import toDate from "./toDate.ts";
 
 export default function isBefore(str: string, date = String(new Date())) {
   assertString(str);

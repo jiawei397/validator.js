@@ -1,9 +1,7 @@
-import assertString from './util/assertString';
-
+import assertString from "./util/assertString";
 
 let imeiRegexWithoutHypens = /^[0-9]{15}$/;
 let imeiRegexWithHypens = /^\d{2}-\d{6}-\d{6}-\d{1}$/;
-
 
 export default function isIMEI(str: string, options: any) {
   assertString(str);
@@ -17,12 +15,11 @@ export default function isIMEI(str: string, options: any) {
     imeiRegex = imeiRegexWithHypens;
   }
 
-
   if (!imeiRegex.test(str)) {
     return false;
   }
 
-  str = str.replace(/-/g, '');
+  str = str.replace(/-/g, "");
 
   let sum = 0,
     mul = 2,

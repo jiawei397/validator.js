@@ -7,7 +7,7 @@
  * @return {object} - RegExp object
  */
 export default function multilineRegexp(parts: string[], flags: string) {
-  const regexpAsStringLiteral = parts.join('');
+  const regexpAsStringLiteral = parts.join("");
 
   return new RegExp(regexpAsStringLiteral, flags);
 }

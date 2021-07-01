@@ -1,5 +1,5 @@
-import assertString from './util/assertString';
-import merge from './util/merge';
+import assertString from "./util/assertString";
+import merge from "./util/merge";
 
 const default_json_options = {
   allow_primitives: false,
@@ -15,7 +15,7 @@ export default function isJSON(str: string, options: any) {
     }
 
     const obj = JSON.parse(str);
-    return primitives.includes(obj) || (!!obj && typeof obj === 'object');
+    return primitives.includes(obj) || (!!obj && typeof obj === "object");
   } catch (e) { /* ignore */ }
   return false;
 }

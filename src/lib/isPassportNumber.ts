@@ -1,4 +1,4 @@
-import assertString from './util/assertString';
+import assertString from "./util/assertString";
 
 /**
  * Reference:
@@ -70,7 +70,7 @@ const passportRegexByCountryCode = {
 export default function isPassportNumber(str, countryCode) {
   assertString(str);
   /** Remove All Whitespaces, Convert to UPPERCASE */
-  const normalizedStr = str.replace(/\s/g, '').toUpperCase();
+  const normalizedStr = str.replace(/\s/g, "").toUpperCase();
 
   return (countryCode.toUpperCase() in passportRegexByCountryCode) &&
     passportRegexByCountryCode[countryCode].test(normalizedStr);
