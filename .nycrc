@@ -1,9 +1,0 @@
-{
-  "reporter": [
-    "html",
-    "text-summary"
-  ],
-  "include": [
-    "src/**/*.js"
-  ]
-}

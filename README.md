@@ -45,6 +45,18 @@ Or, import only a subset of the library:
 import isEmail from 'validator/lib/isEmail';
 ```
 
+#### Deno
+
+```typescript
+import validator from 'https://deno.land/x/deno_validator/mod.ts';
+```
+
+Or, import only a subset of the library:
+
+```typescript
+import isEmail from 'https://deno.land/x/deno_validator/lib/isEmail.ts';
+```
+
 #### Tree-shakeable ES imports
 
 ```javascript
