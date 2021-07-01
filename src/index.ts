@@ -221,7 +221,7 @@ const validator = {
   blacklist,
   isWhitelisted,
   normalizeEmail,
-  toString,
+  // toString, // todo cannot find it 
   isSlug,
   isStrongPassword,
   isTaxID,
