@@ -126,7 +126,7 @@ import isStrongPassword from "./lib/isStrongPassword.ts";
 
 import isVAT from "./lib/isVAT.ts";
 
-const version = "13.6.0.ts";
+const version = "13.6.0";
 
 const validator = {
   version,
