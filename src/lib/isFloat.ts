@@ -1,14 +1,13 @@
 import assertString from "./util/assertString.ts";
 import { decimal } from "./alpha.ts";
 
-export default function isFloat(str: string, options: any) {
+export default function isFloat(str: string, options?: any) {
   assertString(str);
   options = options || {};
   const float = new RegExp(
-    `^(?:[-+])?(?:[0-9]+)?(?:\\${
-      options.locale
-        ? decimal[options.locale]
-        : "."
+    `^(?:[-+])?(?:[0-9]+)?(?:\\${options.locale
+      ? decimal[options.locale]
+      : "."
     }[0-9]*)?(?:[eE][\\+\\-]?(?:[0-9]+))?$`,
   );
   if (str === "" || str === "." || str === "-" || str === "+") {

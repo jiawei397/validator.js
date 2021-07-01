@@ -9,7 +9,7 @@ const rgbColorPercent =
 const rgbaColorPercent =
   /^rgba\((([0-9]%|[1-9][0-9]%|100%),){3}(0?\.\d|1(\.0)?|0(\.0)?)\)/;
 
-export default function isRgbColor(str, includePercentValues = true) {
+export default function isRgbColor(str: string, includePercentValues = true) {
   assertString(str);
 
   if (!includePercentValues) {

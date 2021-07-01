@@ -6,7 +6,7 @@ const fourDigit = /^\d{4}$/;
 const fiveDigit = /^\d{5}$/;
 const sixDigit = /^\d{6}$/;
 
-const patterns = {
+const patterns: any = {
   AD: /^AD\d{3}$/,
   AT: fourDigit,
   AU: fourDigit,
@@ -76,7 +76,7 @@ const patterns = {
 
 export const locales = Object.keys(patterns);
 
-export default function isPostalCode(str, locale) {
+export default function isPostalCode(str: string, locale: string) {
   assertString(str);
   if (locale in patterns) {
     return patterns[locale].test(str);

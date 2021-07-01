@@ -47,7 +47,7 @@ const IPv6AddressRegExp = new RegExp(
   ")(%[0-9a-zA-Z-.:]{1,})?$",
 );
 
-export default function isIP(str: string, version = ""): boolean {
+export default function isIP(str: string, version: string | number = ""): boolean {
   assertString(str);
   version = String(version);
   if (!version) {

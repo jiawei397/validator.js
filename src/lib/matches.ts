@@ -1,9 +1,10 @@
 import assertString from "./util/assertString.ts";
 
-export default function matches(str, pattern, modifiers) {
+export default function matches(str: string, pattern: string | RegExp, modifiers: string) {
   assertString(str);
+  let np = pattern;
   if (Object.prototype.toString.call(pattern) !== "[object RegExp]") {
-    pattern = new RegExp(pattern, modifiers);
+    np = new RegExp(pattern, modifiers);
   }
-  return pattern.test(str);
+  return (np as RegExp).test(str);
 }

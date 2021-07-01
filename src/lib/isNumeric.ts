@@ -1,5 +1,5 @@
 import assertString from "./util/assertString.ts";
-import { decimal } from "./alpha";
+import { decimal } from "./alpha.ts";
 
 const numericNoSymbols = /^[0-9]+$/;
 

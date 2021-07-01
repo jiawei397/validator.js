@@ -1,4 +1,4 @@
-import merge from "./util/merge";
+import merge from "./util/merge.ts";
 import assertString from "./util/assertString.ts";
 
 const upperCaseRegex = /^[A-Z]$/;
@@ -25,7 +25,7 @@ const defaultOptions = {
  * could be moved to util/ ?
 */
 function countChars(str: string) {
-  let result = {};
+  let result: any = {};
   Array.from(str).forEach((char) => {
     let curVal = result[char];
     if (curVal) {
@@ -38,7 +38,7 @@ function countChars(str: string) {
 }
 
 /* Return information about a password */
-function analyzePassword(password) {
+function analyzePassword(password: string) {
   let charMap = countChars(password);
   let analysis = {
     length: password.length,
@@ -63,7 +63,7 @@ function analyzePassword(password) {
   return analysis;
 }
 
-function scorePassword(analysis, scoringOptions) {
+function scorePassword(analysis: any, scoringOptions: any) {
   let points = 0;
   points += analysis.uniqueChars * scoringOptions.pointsPerUnique;
   points += (analysis.length - analysis.uniqueChars) *

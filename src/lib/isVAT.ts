@@ -6,7 +6,9 @@ export const vatMatchers = {
   IT: /^(IT)?[0-9]{11}$/,
 };
 
-export default function isVAT(str, countryCode) {
+type CountryCode = keyof typeof vatMatchers;
+
+export default function isVAT(str: string, countryCode: CountryCode) {
   assertString(str);
   assertString(countryCode);
 

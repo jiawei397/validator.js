@@ -1,4 +1,4 @@
-import merge from "./util/merge";
+import merge from "./util/merge.ts";
 
 const default_normalize_email_options = {
   // The following options apply to all email addresses
@@ -167,77 +167,77 @@ function dotsReplacer(match) {
   return "";
 }
 
-export default function normalizeEmail(email, options) {
+export default function normalizeEmail(email: string, options: any) {
   options = merge(options, default_normalize_email_options);
 
   const raw_parts = email.split("@");
   const domain = raw_parts.pop();
-  const user = raw_parts.join("@");
+  const user: string = raw_parts.join("@");
   const parts = [user, domain];
 
   // The domain is always lowercased, as it's case-insensitive per RFC 1035
-  parts[1] = parts[1].toLowerCase();
+  parts[1] = parts[1]!.toLowerCase();
 
   if (parts[1] === "gmail.com" || parts[1] === "googlemail.com") {
     // Address is GMail
     if (options.gmail_remove_subaddress) {
-      parts[0] = parts[0].split("+")[0];
+      parts[0] = parts[0]!.split("+")[0];
     }
     if (options.gmail_remove_dots) {
       // this does not replace consecutive dots like example..email@gmail.com
-      parts[0] = parts[0].replace(/\.+/g, dotsReplacer);
+      parts[0] = parts[0]!.replace(/\.+/g, dotsReplacer);
     }
-    if (!parts[0].length) {
+    if (!parts[0]!.length) {
       return false;
     }
     if (options.all_lowercase || options.gmail_lowercase) {
-      parts[0] = parts[0].toLowerCase();
+      parts[0] = parts[0]!.toLowerCase();
     }
     parts[1] = options.gmail_convert_googlemaildotcom ? "gmail.com" : parts[1];
   } else if (icloud_domains.indexOf(parts[1]) >= 0) {
     // Address is iCloud
     if (options.icloud_remove_subaddress) {
-      parts[0] = parts[0].split("+")[0];
+      parts[0] = parts[0]!.split("+")[0];
     }
-    if (!parts[0].length) {
+    if (!parts[0]!.length) {
       return false;
     }
     if (options.all_lowercase || options.icloud_lowercase) {
-      parts[0] = parts[0].toLowerCase();
+      parts[0] = parts[0]!.toLowerCase();
     }
   } else if (outlookdotcom_domains.indexOf(parts[1]) >= 0) {
     // Address is Outlook.com
     if (options.outlookdotcom_remove_subaddress) {
-      parts[0] = parts[0].split("+")[0];
+      parts[0] = parts[0]!.split("+")[0];
     }
-    if (!parts[0].length) {
+    if (!parts[0]!.length) {
       return false;
     }
     if (options.all_lowercase || options.outlookdotcom_lowercase) {
-      parts[0] = parts[0].toLowerCase();
+      parts[0] = parts[0]!.toLowerCase();
     }
   } else if (yahoo_domains.indexOf(parts[1]) >= 0) {
     // Address is Yahoo
     if (options.yahoo_remove_subaddress) {
-      let components = parts[0].split("-");
+      let components = parts[0]!.split("-");
       parts[0] = (components.length > 1)
         ? components.slice(0, -1).join("-")
         : components[0];
     }
-    if (!parts[0].length) {
+    if (!parts[0]!.length) {
       return false;
     }
     if (options.all_lowercase || options.yahoo_lowercase) {
-      parts[0] = parts[0].toLowerCase();
+      parts[0] = parts[0]!.toLowerCase();
     }
   } else if (yandex_domains.indexOf(parts[1]) >= 0) {
     if (options.all_lowercase || options.yandex_lowercase) {
-      parts[0] = parts[0].toLowerCase();
+      parts[0] = parts[0]!.toLowerCase();
     }
     parts[1] = "yandex.ru"; // all yandex domains are equal, 1st preferred
   } else if (options.all_lowercase) {
     // Any other address
-    parts[0] = parts[0].toLowerCase();
+    parts[0] = parts[0]!.toLowerCase();
   }
   return parts.join("@");
 }

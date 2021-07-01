@@ -7,7 +7,9 @@ const uuid = {
   all: /^[0-9A-F]{8}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{12}$/i,
 };
 
-export default function isUUID(str, version = "all") {
+type Version = keyof typeof uuid;
+
+export default function isUUID(str: string, version: Version = "all") {
   assertString(str);
   const pattern = uuid[version];
   return pattern && pattern.test(str);

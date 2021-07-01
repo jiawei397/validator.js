@@ -1,6 +1,6 @@
 import assertString from "./util/assertString.ts";
 
-export default function ltrim(str, chars) {
+export default function ltrim(str: string, chars: string) {
   assertString(str);
   // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions#Escaping
   const pattern = chars
