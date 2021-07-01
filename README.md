@@ -1,4 +1,6 @@
-# validator.js
+# validator.ts 
+
+forked from [validator.js](https://github.com/validatorjs/validator.js), now for deno
 
 [![NPM version][npm-image]][npm-url]
 [![CI][ci-image]][ci-url]
