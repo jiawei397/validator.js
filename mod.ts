@@ -128,7 +128,7 @@ import isVAT from "./lib/isVAT.ts";
 
 const version = "13.6.0";
 
-const validator = {
+export {
   version,
   toDate,
   toFloat,
@@ -228,6 +228,4 @@ const validator = {
   isDate,
   isLicensePlate,
   isVAT,
-};
-
-export default validator;
+}

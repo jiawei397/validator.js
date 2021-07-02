@@ -48,7 +48,9 @@ import isEmail from 'validator/lib/isEmail';
 #### Deno
 
 ```typescript
-import validator from 'https://deno.land/x/deno_validator/mod.ts';
+import * as validator from 'https://deno.land/x/deno_validator/mod.ts';
+
+import {isEmail} from 'https://deno.land/x/deno_validator/mod.ts';
 ```
 
 Or, import only a subset of the library:
